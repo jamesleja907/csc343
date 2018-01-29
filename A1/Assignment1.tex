@@ -70,7 +70,7 @@ This helps the comments visually stick to the algebra.
 Find all the users who have never sent a message, but who have been sent at least one message. The message may have been sent to the user or to a group that the user belongs to. Report each user id. \\
 
 {\large %This increase in font size makes the subscripts much more readable.
---  Messages that have been sent. \\[5pt]
+--  Messages that have been sent. \\ [5pt]
 $
 hasSent(\var{mID}, \var{uID}, \var{status}) :=  
 	\sigma_{status = 'sent'} 
@@ -103,31 +103,82 @@ neverSent(\var{uID}) := \\[5pt]  %This RA statement is too long, so we break it 
 	\sigma_{
 		T1.\var{oID} \neq T2.\var{oID} \wedge 
 		T1.\var{sID} = T2.\var{sID} \wedge 
-		T1.grade = 100 \wedge T2.grade = 100}
+		T1.grade = 100 \wedge T2.grade = 100} 
 	[ (\rho_{T1}Took) \times (\rho_{T2}Took) ] \\[5pt]
 $
 } % End of font size increase.
 
 
 \item   % ----------
-Find every hashtag that has been mentioned in at least three post captions
-on every day of 2017.
-You may assume that there is at least one post on each day of a year. 
+Net neutrality is dead, so EVL ISP wants to slow the service of poor users (users who do not use the app enough). To do this, find the users (and return their uid) who sent two or fewer messages in 2017.\\\\
+{\large
+\hspace*{1cm} -- Get all the messages that were sent in 2017 \\ [5pt]
+$
+2017Msgs(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}) :=
+	\sigma_{time.year = 2017} Message
+$\\
 
+\hspace*{1cm} -- Get all the uIDs of the users who sent 3 or more messages in 2017. \\\\
+The substack below allows you to make multiple lines within one sigma.\\ [5pt]
+$
+3orMore2017(\var{uID}) := \\ [5pt]
+	\hspace*{1cm}  % This command creates an indentation
+	\Pi_{M1.\var{uID}}( 
+	\sigma_{\substack{
+		M1.\var{from} = M2.\var{from} \\ 
+		\wedge M1.\var{from} = M3.\var{from} \\
+		\wedge M1.\var{mid} \neq M2.\var{mid} \\
+		\wedge M2.\var{mid} \neq M3.\var{mid} \\
+		\wedge M1.\var{mid} \neq M3.\var{mid} }}
+	[ (\rho_{M1}2017Msgs) \times (\rho_{M2}2017Msgs) \times (\rho_{M3}2017Msgs ]) \\[5pt]
+$
+
+$
+Q2(uID) := \Pi_{\var{uID}} User - 3orMore2017
+$
+}
 \item   % ----------	
-Let's say that a pair of users are ``reciprocal followers" if they follow each other. 
-For each pair of reciprocal followers, 
-find all of their ``uncommon followers": 
-users who follow one of them but not the other. 
-Report one row for each of the pair's uncommon follower.
-In it, include
-the identifiers of the reciprocal followers,
-and the identifier, name and email of the uncommon follower. 
+Find the largest group. Report the group id. If there is a tie, report them all. \\\\ {\large
+Cannot be expressed. \\
+}
 
 \item   % ---------- 
-Find the user who has liked the most posts. 
-Report the user's id, name and email, and the id of the posts they have liked. 
-If there is a tie, report them all.
+Find privacy fanatics, that is, any user who has all her privacy settings set to none and who has never sent a message to another user who has privacy settings different than her own (meaning different than all none). Note that a private user (settings are all none) who has never sent a message would be considered a privacy fanatic. Return the user’s uid and name.
+
+{\large
+\hspace*{1cm} -- Get the uIDs of the users with all their privacy settings set to none. \\ [5pt]
+$
+PrivUsers(\var{uID}) := 
+	\Pi_{\var{uID}}
+	(\sigma_{lastSeen = "none" \\
+			\wedge profilePhoto = "none" \\
+			\wedge profile = "none"} Privacy)
+$ \\\\
+\hspace*{1cm} -- Get the uIDs of the "non-private" users. \\ [5pt]
+$
+NonPrivUsers(\var{uID}) :=
+	\Pi_{\var{uID}} Privacy - PrivateUsers
+$ \\\\
+\hspace*{1cm} -- Get messages sent from private to non-private users.	 \\ [5pt]
+$
+PrivtoNonPriv(\var{uID}) :=
+	\Pi_{\var{PrivateUsers.uID}}
+	(\sigma_{\substack{Message.from = PrivUsers.uID \\
+		 \wedge Message.to = NonPrivUsers.uID}}
+		(PrivUsers \times NonPrivUsers \times Message))	
+$ \\	\\
+\hspace*{1cm} -- get the uIDs of the private users who only send to other privates. \\ [5pt]
+$
+PrivtoPriv(\var{uID}) :=
+	PrivateUsers = PrivtoNonPriv
+$ \\\\
+$
+Q4(\var{uID}, name) :=
+	\Pi_{\var{uID}, \var{name}} (User \bowtie PrivtoPriv)
+$
+
+
+}
 
 \item   % ----------
 Let's say a pair of users are ``backscratchers" 
