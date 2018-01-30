@@ -254,20 +254,18 @@ Q6(uID) :=
 $
 }
 \item   % ----------
-Find the users who have always liked posts
-in the same order as the order in which they were posted,
-that is,
-users for whom the following is true:
-if they liked $n$ different posts (posts of any users)
-and
-$$[post\_date\_1] < [post\_date\_2] < ... < [post\_date\_n]$$
-where $post\_date\_i$ is the date on which a post $i$ was posted, 
-then it holds that
-$$[like\_date\_1] < [like\_date\_2] < ... < [like\_date\_n]$$ 
-where $like\_date\_i$ is the date on which the post $i$ was liked 
-by the user.  
-Report the user's name and email.
+Return all pairs of users with the same name. Return the two uids and the common name. Return
+each pair only once. (For example, if user 1 and user 2 are both named 'Pat', then return either [1, 2,
+'Pat'] or [2, 1, 'Pat'] but not both). \\ [5pt]
+\large{
+\hspace*{1cm} -- Get the uID's and name of each pair of users with the same name. \\ [5 pt]
+$
+Q7(uId, uId, Name) := \Pi_{\var{U1.uID}, \var{U2.uID}, \var{U1.name}}
+	 \sigma_{\substack{{\var{U1.uID}}  <  \var{U2.uID} \\
+	  \wedge \var{U1.name} = \var{U2.name}}} (\rho_{\var{U1}} User \times \rho_{U2}User) \\ [5pt]
+$
 
+}
 \item   % ----------
 Report the name and email of the user
 who has gained the greatest number of new followers in 2017. 
