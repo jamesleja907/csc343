@@ -267,16 +267,91 @@ $
 
 }
 \item   % ----------
-Report the name and email of the user
-who has gained the greatest number of new followers in 2017. 
-If there is a tie, report them all.
+For each user and contact, report the time that the first direct message was sent from the user to the
+contact and the time the last direct message was sent. Return the uid of the user (in an attribute
+named user) and the contact (in an attribute named contact) and the first time (earliest) (in an
+attribute named first) and last (most recent) time (in an attribute named last). If a user has not
+sent any direct messages to a contact then include the user and contact with the value 0 for both the
+first and last times. \\ [5pt]
+\large{
+\hspace*{1cm} -- Get all direct messages \\ [5pt]
+$
+dMessage(mID, from, to, content, time) := \Pi_{\var{mID}, \var{from}, \var{to}, \var{content}, \var{time}} \\
+\sigma_{\var{Message.to} = \var{User.uID}} Message \times User \\ [5pt]
+$
+$
+NoMessages(\var{uID }, \var{uID}, \var{0}, \var{0}) := \Pi_{\var{uID}, \var{contact}} \\
+ Contact -  \Pi_{\var{to}, \var{from}} dMessage
+$
+$
+AllButEarliest(mID, from, to, content, time) := \Pi_{\var{M1.mID}, \var{M1.from},\\
+					\var{M1.content}, \var{M1.time}} \\
+					\sigma_{\substack{ \var{M1.time} > \var{M2.time} \\
+					\wedge M1.from = M2.from \\
+					\wedge \var{M1.to} = \var{M2.to}}} \\
+					\rho_{\var{M1}} dMessage \times \rho_{\var{M2}} dMessage
+$
+$
+Earliest(mID, from, to, content, time) := dMessage - AllButEarliest
+$
+$
+AllButLatest(mID, from, to, content, time) := \Pi_{\var{M1.mID}, \var{M1.from}, \\
+					\var{M1.content},\var{M1.time}} \\
+					\sigma_{\substack{ \var{M1.time} < \var{M2.time} \\
+					\wedge \var{M1.from} = \var{M2.from} \\
+					\wedge \var{M1.to} = \var{M2.to}}}
+					\rho_{\var{M1}} dMessage \times \rho_{\var{M2}} dMessage
+$
+$
+Latest(mID, from, to, content, time) := dMessage - AllButLatest
+$
+$
+Earliest\&Latest(uID, uID, time, time) := \Pi_{\var{E.from}, \var{E.to}, \var{E.time}, \var{L.time}}\\
+					\sigma_{\substack{E.from = L.from
+					\wedge E.to = L.to}}
+					\rho_{E}Earliest \times \rho_{L}Latest
+$
+$
+Q8(User, Contact, First, Last) := Earliest\&Lastest \cap NoMessages  \\ [5pt]
+$
+
+}
 
 \item   % ----------
-For each user who has ever viewed any story, 
-	report their id and the id of the first and of the last story they have seen.
-If there is a tie for the first story seen, report both;
-if there is a tie for the last story seen, report both.
-This means that a user could have up to 4 rows in the resulting relation.
+A 'spammer' is a user who posts unwanted direct messages that are not read. A spammer must have
+sent at least direct message (so this message will appear in the Status relation). Because users may not
+be aware that someone is a spammer, they may read some of their initial messages. However, once they
+decide a certain user is a spammer, the receivers stop reading all messages from the spammer. This
+means that for a user who is sent a direct message from a spammer there are no delivered messages
+with a time that is earlier than any read message from the spammer. Return the spammer's user id
+and all their privacy settings (Privacy.lastSeen, Privacy.photo, Privacy.profile).
+Do not consider groups for this question. Only consider direct messages sent from a user to another
+single user (not to a group). \\ [5pt]
+\large{
+\hspace*{1cm} -- Get all direct messages. \\ [5pt]
+$
+dMessage(mID, from, to, content, time) := \Pi_{\var{mID}, \var{from}, \var{to}, \var{content}, \var{time}} \\
+\sigma_{\var{Message.to} = \var{User.uID}} Message \times User \\ [5pt]
+$
+$dMessage\&Status() := dMessage \bowtie Status \\[5pt]
+$
+$
+NotSpam(uID) := \Pi_{D1.from} \sigma_{\substack{D1.mID != D2.mID \\
+																\wedge D1.from = D2.from \\
+																\wedge D1.to = D2.to \\
+																\wedge D1.time > D2.time \\
+																\wedge D1.status = "Read \\
+																\wedge D2.status = "Delivered"}}
+																\rho_{D1} dMessage\&Status \times \\
+																\rho_{D2} dMessage\&Status \\ [5pt]
+$
+$
+Spammer(uID) := User - NotSpam\\ [5pt]
+$
+$
+Q9(uID, lastSeen, Photo, Profile) := Spammer \bowtie Privacy \\ [5pt]													
+$
+}
 
 \item   % ----------
 A comment is said to have either positive or negative sentiment
