@@ -171,7 +171,36 @@ $
 
 \item   % ----------
 Consider only users whose privacy settings state that everyone may see their lastSeen time (lastSeen = everyone). Among such users, report the uid, name and lastSeen of the user(s) whose lastSeen time is the most recent. Since times are ordered, the most recent time is the largest time value. If there are ties, report all users. These users have the most recent public lastSeen time.
-
+{\large
+\hspace*{1cm} -- Get the uid's of all users who's allow everyone to see their lastSeen time. \\ [5pt]
+$
+LastSeenAll(\var{uID}) :=
+	\Pi_{\var{\var{uID}}}
+	(\sigma_{lastSeen = "Everyone"} Privacy)
+$ \\\\
+\hspace*{1cm} -- Get the uID's and times of the users with open privacy settings. \\ [5pt]
+$
+OpenUser(uID, lastSeen) := 
+	\Pi_{user.uID, user.lastSeen}
+	(User \bowtie_{user.uID = LastSeenAll.uID})
+$\\\\
+\hspace*{1cm} -- Get all but the most recent lastSeen times of open users. \\ [5pt]
+$
+NotRecent(\var{uID}) := \Pi_{\var{OU1.uID}}
+	\sigma_{OU1.\var{lastSeen} < OU2.\var{lastSeen}}
+	(\rho_{OU1}OpenUser \times \rho_{OU2}OpenUser)
+$\\\\
+\hspace*{1cm} -- Get uID's of the most recent open users
+$
+MostRecent(\var{uID}) := LastSeenAll - NotRecent
+$\\\\
+\hspace*{1cm} -- Connect the most recent uID's with the User relation to get their names and lastSeen times. \\ [5pt]
+$
+Q5(\var{uID}, \var{name}, \var{lastSeen}) := 
+	\Pi_{\var{Uid}, \var{name}, \var{lastSeen}} 
+	(User \bowtie_{user.\var{uID} = MostRecent.\var{uID}})
+$\\\\
+}
 
 \item   % ----------
 A user’s contact list can be sorted by the start time. Find users who send their first direct message to a contact in the same order as the contact list order. So if Sue is Pat’s oldest contact and Jo is the second oldest contact, then Pat’s first direct message to Sue happens before her first direct message to Jo and so on for all contacts. Include users with empty contact lists. Return user’s uid. \\ [5pt]
