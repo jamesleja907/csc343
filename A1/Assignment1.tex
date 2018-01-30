@@ -170,21 +170,60 @@ $
 }
 
 \item   % ----------
-Let's say a pair of users are ``backscratchers" 
-if they follow each other and like all of each others' posts. 
-Report the user id of all users who follow some pair of backscratcher users.
+Consider only users whose privacy settings state that everyone may see their lastSeen time (lastSeen = everyone). Among such users, report the uid, name and lastSeen of the user(s) whose lastSeen time is the most recent. Since times are ordered, the most recent time is the largest time value. If there are ties, report all users. These users have the most recent public lastSeen time.
+
 
 \item   % ----------
-The ``most recent activity" of a user is his or her latest story or post. 
-The ``most recently active user" is the user whose most recent activity
-occurred most recently.
-
-Report the name of every user,
-and for the most recently active user they follow,
-report their name and email, and the date of their most-recent activity.
-If there is a tie for the most recently active user that a user follows,
-report a row for each of them.
-
+A user’s contact list can be sorted by the start time. Find users who send their first direct message to a contact in the same order as the contact list order. So if Sue is Pat’s oldest contact and Jo is the second oldest contact, then Pat’s first direct message to Sue happens before her first direct message to Jo and so on for all contacts. Include users with empty contact lists. Return user’s uid. \\ [5pt]
+\large{
+\hspace*{1cm} -- Get the all the messages that have been sent directly to a user. \\ [5pt]
+$
+Dmessage(\var{mID}, \var{from}, \var{to}, \var{time}) := \\
+	\hspace*{1in}
+	\Pi_{\substack{\var{Message.mID} \\
+		\wedge \var{Message.from} \\
+		\wedge \var{Message.to} \\
+		\wedge \var{Message.time}}} 
+	\sigma_{\var{Message.to} = \var{User.uID}}
+	(Message \times \Pi_{\var{uID} User}) \\\\
+$
+\hspace*{1cm} -- Get the all but the earliest direct messages. \\ [5pt]
+$
+AllButEarliest := \\
+	\hspace*{1in}
+	\Pi_{\substack{\var{M1.mID} \\
+		\wedge \var{M1.from} \\
+		\wedge \var{M1.to} \\
+		\wedge \var{M1.time}}} 
+	(\sigma_{\substack{\var{M1.to} = \var{M2.to} \\
+		\wedge \var{M1.from} = \var{M2.from} \\
+		\wedge \var{M1.time} > \var{M2.time}}}
+	(\rho_{\var{M1}} DMessage \times \rho_{\var{M2}} DMessage)) \\\\
+$
+\hspace*{1cm} -- Get the earliest direct messages. \\ [5pt] 
+$
+Earliest = Dmessage - AllButEarliest \\\\
+$
+\hspace*{1cm} -- Get the uIDs of the users whose earliest direct messages are not in the same order as their contact start time. \\ [5pt]
+$
+NotInOrder(\var{uID}) := \\ [5pt]
+	\Pi_{\var{C1.uID}}
+	(\sigma_{\substack{\var{C1.user} = \var{C2.user} \\
+		\wedge \var{C1.user} = \var{E1.from} \\
+		\wedge \var{C1.user} = \var{E2.from} \\
+		\wedge \var{C1.contact} = \var{E1.to} \\
+		\wedge \var{C1.contact} = \var{E2.to} \\
+		\wedge \var{C1.contact} \neq \var{C2.contact} \\
+		\wedge \var{C1.start} > \var{C2.start} \\
+		\wedge \var{E1.time} < \var{E2.time}}}
+		(\rho_{\var{C1}} Contact \times \rho_{\var{C2}} Contact
+		\times \rho_{\var{E1}} Earliest \times \rho_{\var{E2}} Earliest)) \\ [5pt]
+$
+$
+Q6(uID) := 
+	\Pi_{\var{uID}} User - NotInOrder
+$
+}
 \item   % ----------
 Find the users who have always liked posts
 in the same order as the order in which they were posted,
