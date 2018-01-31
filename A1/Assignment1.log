@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  31 JAN 2018 13:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  31 JAN 2018 15:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -131,37 +131,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 70--71
 [1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 73--96
+Underfull \hbox (badness 10000) in paragraph at lines 73--97
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 73--96
+Underfull \hbox (badness 10000) in paragraph at lines 73--97
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 101--109
+Underfull \hbox (badness 10000) in paragraph at lines 102--110
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 101--109
+Underfull \hbox (badness 10000) in paragraph at lines 102--110
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 110--124
+Underfull \hbox (badness 10000) in paragraph at lines 111--125
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 130--133
+Underfull \hbox (badness 10000) in paragraph at lines 131--134
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 130--133
+Underfull \hbox (badness 10000) in paragraph at lines 131--134
 
  []
 
@@ -169,59 +169,59 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--169
+Underfull \hbox (badness 10000) in paragraph at lines 139--170
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--169
+Underfull \hbox (badness 10000) in paragraph at lines 139--170
 
  []
 
 
-Overfull \hbox (6.54141pt too wide) in paragraph at lines 138--169
+Overfull \hbox (6.54141pt too wide) in paragraph at lines 139--170
 | \OT1/cmr/m/n/12 ^^E[](\OML/cmm/m/it/12 ^^[[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12
  PrivUsers \OMS/cmsy/m/n/12 ^^B \OML/cmm/m/it/12 NonPrivUsers \OMS/cmsy/m/n/12 
 ^^B \OML/cmm/m/it/12 Message\OT1/cmr/m/n/12 ))$ 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--169
+Underfull \hbox (badness 10000) in paragraph at lines 139--170
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--169
+Underfull \hbox (badness 10000) in paragraph at lines 139--170
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 174--205
+Underfull \hbox (badness 10000) in paragraph at lines 175--206
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--205
+Underfull \hbox (badness 10000) in paragraph at lines 175--206
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--205
+Underfull \hbox (badness 10000) in paragraph at lines 175--206
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--205
+Underfull \hbox (badness 10000) in paragraph at lines 175--206
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--205
+Underfull \hbox (badness 10000) in paragraph at lines 175--206
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 174--205
+Underfull \hbox (badness 10000) in paragraph at lines 175--206
 
  []
 
@@ -238,39 +238,39 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ™ in font cmr10!
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 258--268
+Underfull \hbox (badness 10000) in paragraph at lines 259--269
 
  []
 
 
-Overfull \hbox (115.78462pt too wide) in paragraph at lines 271--314
+Overfull \hbox (115.78462pt too wide) in paragraph at lines 272--315
 \OML/cmm/m/it/12 Contact \OMS/cmsy/m/n/12 ^^@ \OT1/cmr/m/n/12 ^^E[]\OML/cmm/m/i
 t/12 dMessage$ $AllButEarliest\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 mID; from; to; 
 content; time\OT1/cmr/m/n/12 ) := ^^E[][] 
  []
 
 
-Overfull \hbox (45.03778pt too wide) in paragraph at lines 271--314
+Overfull \hbox (45.03778pt too wide) in paragraph at lines 272--315
 \OML/cmm/m/it/12 AllButEarliest$ $AllButLatest\OT1/cmr/m/n/12 (\OML/cmm/m/it/12
  mID; from; to; content; time\OT1/cmr/m/n/12 ) := ^^E[][] 
  []
 
 
-Overfull \hbox (5.86949pt too wide) in paragraph at lines 271--314
+Overfull \hbox (5.86949pt too wide) in paragraph at lines 272--315
 \OML/cmm/m/it/12 ^^[[]^^Z[]dMessage \OMS/cmsy/m/n/12 ^^B \OML/cmm/m/it/12 ^^Z[]
 dMessage$ $Latest\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 mID; from; to; content; time
 \OT1/cmr/m/n/12 ) :=
  []
 
 
-Overfull \hbox (26.41545pt too wide) in paragraph at lines 271--314
+Overfull \hbox (26.41545pt too wide) in paragraph at lines 272--315
 \OML/cmm/m/it/12 dMessage \OMS/cmsy/m/n/12 ^^@ \OML/cmm/m/it/12 AllButLatest$ $
 Earliest\OT1/cmr/m/n/12 &\OML/cmm/m/it/12 Latest\OT1/cmr/m/n/12 (\OML/cmm/m/it/
 12 uID; uID; time; time\OT1/cmr/m/n/12 ) := ^^E[][] 
  []
 
 
-Overfull \hbox (65.77644pt too wide) in paragraph at lines 271--314
+Overfull \hbox (65.77644pt too wide) in paragraph at lines 272--315
 \OML/cmm/m/it/12 ^^[[]^^Z[]Earliest \OMS/cmsy/m/n/12 ^^B \OML/cmm/m/it/12 ^^Z[]
 Latest$ $Q\OT1/cmr/m/n/12 8(\OML/cmm/m/it/12 User; Contact; First; Last\OT1/cmr
 /m/n/12 ) := \OML/cmm/m/it/12 Earliest\OT1/cmr/m/n/12 &\OML/cmm/m/it/12 Lastest
@@ -278,21 +278,26 @@ Latest$ $Q\OT1/cmr/m/n/12 8(\OML/cmm/m/it/12 User; Contact; First; Last\OT1/cmr
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 271--314
+Underfull \hbox (badness 10000) in paragraph at lines 272--315
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 318--352
+Underfull \hbox (badness 10000) in paragraph at lines 319--353
 $
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 318--352
+Underfull \hbox (badness 10000) in paragraph at lines 319--353
 
  []
 
-[5] (./Assignment1.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--417
+
+ []
+
+[5] [6] (./Assignment1.aux) ) 
 Here is how much of TeX's memory you used:
  966 strings out of 493089
  10997 string characters out of 6134842
@@ -301,28 +306,28 @@ Here is how much of TeX's memory you used:
  11382 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  24i,9n,20p,446b,234s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2015/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmmi10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmmi12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmi7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmi8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6
-.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.p
-fb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
-></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb><
-/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></u
-sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Assignment1.pdf (5 pages, 213685 bytes).
+</usr/local/texlive/2015/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmmi8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/c
+msy7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti1
+0.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12
+.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.p
+fb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pf
+b>
+Output written on Assignment1.pdf (6 pages, 210779 bytes).
 PDF statistics:
- 92 PDF objects out of 1000 (max. 8388607)
- 66 compressed objects within 1 object stream
+ 91 PDF objects out of 1000 (max. 8388607)
+ 65 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

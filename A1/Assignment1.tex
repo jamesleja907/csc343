@@ -70,23 +70,24 @@ This helps the comments visually stick to the algebra.
 Find all the users who have never sent a message, but who have been sent at least one message. The message may have been sent to the user or to a group that the user belongs to. Report each user id. \\
 
 {\large %This increase in font size makes the subscripts much more readable.
---  Messages that have been sent. \\ [5pt]
+\hspace*{1cm} --  uIDs of users who have sent a message. \\ [5pt]
 $
-hasSent(\var{mID}, \var{uID}, \var{status}) :=  
-	\sigma_{status = 'sent'} 
-	Status \\[10pt]
+hasSent(\var{uid}) :=
+	\Pi_{\var{user.uid}}\;	%The \; adds space  
+	(\sigma_{message.from = user.uid} 
+	(Message \times User)) \\[10pt]
 $
--- uID of users who have received a message. \\[5pt]
+\hspace*{1cm} -- uID of users who have received a message. \\[5pt]
 $
-hasReceived(\var{uID}) := 
-	\Pi_{\var{uID}} 
-	(Status - \var{hasSent}) 
+hasReceived(\var{uid}) := 
+	\Pi_{\var{uid}} 
+	Status 
 	\\[10pt]
 $
--- uID of users who have never sent a message. \\[5pt]
+\hspace*{1cm} -- uID of users who have never sent a message. \\[5pt]
 $
 neverSent(\var{uID}) := 
-	\Pi_{\var{uID}} User - \Pi_\var{uID}\var{hasSent} 
+	\Pi_{\var{uID}} User - hasSent 
 	\\[10pt]
 $
 $
@@ -111,7 +112,7 @@ $\\
 % The substack below allows you to make multiple lines within one sigma. 
 $
 3orMore2017(\var{uID}) := \\ [5pt]
-	\hspace*{1cm}  % This command creates an indentation
+	% This command creates an indentation
 	\Pi_{M1.\var{uID}}( 
 	\sigma_{\substack{ 
 		M1.\var{from} = M2.\var{from} \\ 
@@ -119,7 +120,7 @@ $
 		\wedge M1.\var{mid} \neq M2.\var{mid} \\
 		\wedge M2.\var{mid} \neq M3.\var{mid} \\
 		\wedge M1.\var{mid} \neq M3.\var{mid} }}
-	[ (\rho_{M1}2017Msgs) \times (\rho_{M2}2017Msgs) \times (\rho_{M3}2017Msgs )] \\[5pt]
+	[ \rho_{M1}2017Msgs \times \rho_{M2}2017Msgs \times \rho_{M3}2017Msgs ]) \\[5pt]
 $
 
 $
@@ -330,7 +331,7 @@ $
 dMessage(mID, from, to, content, time) := \Pi_{\var{mID}, \var{from}, \var{to}, \var{content}, \var{time}} \\
 \sigma_{\var{Message.to} = \var{User.uID}} Message \times User \\ [5pt]
 $
-$dMessage\&Status() := dMessage \bowtie Status \\[5pt]
+$dMessage\&Status() := dMessage \bowtie Status \\ [5pt]
 $
 $
 NotSpam(uID) := \Pi_{D1.from} \sigma_{\substack{D1.mID != D2.mID \\
@@ -367,15 +368,56 @@ and then use them in an integrity constraint.
 \begin{enumerate}
 
 \item   % ----------
-A comment on a post must occur after the date-time of the post itself.
-(Remember that you can compare two date-time attributes with simple $<$,
-$>=$ etc.)
+The receiver (Message[to]) of a message must be either a user (User[uid]) or a group (Group[gid]).
 
 \item %---------
-Each user can have at most one current story.
-
+A user can only send messages to users in her contacts (Contact[contact]) and the time of the message must be after the start of the contact. This includes direct messages sent to a user and messages sent to a group. All members of the group must be in the user's contacts. \\[5pt]
+\large{
+\hspace*{1cm} -- All the direct messages. \\ [5pt]
+$
+DirectMsg(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}) := \\ [5pt]
+\hspace*{1cm} \Pi_{\substack{Message.mid, \\
+							Message.from, \\
+							Message.to, \\
+							Message.content, \\
+							Message.time}}
+			\sigma_{Message.to = User.uid}
+			(Message \times \Pi_{\var{uid}} User) \\ [5pt]
+$
+\hspace*{1cm} -- All the group messages. \\ [5pt]
+$
+GroupMsg := Message - DirectMsg \\ [5pt]
+$
+\hspace*{1cm} -- Make a relation of all the combinations of group messages and group where the constraints are followed (i.e. all members of the group are part of the sender's contacts, and the message was sent after the contact start time). \\ [5pt]
+$
+GrpCorrect(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gid}, \var{uid}) := \\ [5pt]
+\hspace*{1cm} \Pi_{\substack{GroupMsg.mid, \\
+							GroupMsg.from, \\
+							GroupMsg.to, \\
+							GroupMsg.content, \\
+							GroupMsg.time,
+							Group.gid, \\
+							Group.uid}}
+			\sigma_{\substack{GroupMsg.from = Contact.user \\
+					\wedge GroupMsg.to = Group.gid \\
+					\wedge Group.uid = Contact.contact \\
+					\wedge GroupMsg.time > Contact.start}}
+			(GroupMsg \times Group \times Contact) \\ [5pt]
+$
+\hspace*{1cm} -- Get all the instances that violate the group constraint. \\ [5pt]
+$
+GrpViolators(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gid}, \var{uid}) := \\
+	\hspace*{1cm}
+	(\sigma_{\var{GroupMsg.to} = {Group.gid}}
+	(GroupMsg \times Group )) - GrpCorrect \\ [5pt]
+$
+\hspace*{1cm} -- Need to finish with the direct messages part!!! \\ [5pt]
+}
 \item %----------
-Every post must include at least one picture or one video and so must every story.
+The total size of all attachments in a message must be less than 128MB.
+
+\item
+The Status relation may not contain a message and user if the message was not sent to that user (either directly or the user was part of a group that received the message).
 
 \end{enumerate}
 
