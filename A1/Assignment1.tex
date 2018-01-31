@@ -146,12 +146,13 @@ $ \\\\
 \hspace*{1cm} -- Get the uIDs of the "non-private" users. \\ [5pt]
 $
 NonPrivUsers(\var{uID}) :=
-	\Pi_{\var{uID}} Privacy - PrivateUsers
+	\Pi_{\var{uID}} Privacy - PrivUsers
 $ \\\\
 \hspace*{1cm} -- Get messages sent from private to non-private users.	 \\ [5pt]
 $
-PrivtoNonPriv(\var{uID}) :=
-	\Pi_{\var{PrivateUsers.uID}}
+PrivtoNonPriv(\var{uID}) := \\
+	\hspace*{1cm}
+	\Pi_{\var{PrivUsers.uID}}
 	(\sigma_{\substack{Message.from = PrivUsers.uID \\
 		 \wedge Message.to = NonPrivUsers.uID}}
 		(PrivUsers \times NonPrivUsers \times Message))	
@@ -159,7 +160,7 @@ $ \\	\\
 \hspace*{1cm} -- get the uIDs of the private users who only send to other privates. \\ [5pt]
 $
 PrivtoPriv(\var{uID}) :=
-	PrivateUsers = PrivtoNonPriv
+	PrivUsers - PrivtoNonPriv
 $ \\\\
 $
 Q4(\var{uID}, name) :=
@@ -170,7 +171,7 @@ $
 }
 
 \item   % ----------
-Consider only users whose privacy settings state that everyone may see their lastSeen time (lastSeen = everyone). Among such users, report the uid, name and lastSeen of the user(s) whose lastSeen time is the most recent. Since times are ordered, the most recent time is the largest time value. If there are ties, report all users. These users have the most recent public lastSeen time.
+Consider only users whose privacy settings state that everyone may see their lastSeen time (lastSeen = everyone). Among such users, report the uid, name and lastSeen of the user(s) whose lastSeen time is the most recent. Since times are ordered, the most recent time is the largest time value. If there are ties, report all users. These users have the most recent public lastSeen time. \\ [5pt]
 {\large
 \hspace*{1cm} -- Get the uid's of all users who's allow everyone to see their lastSeen time. \\ [5pt]
 $
@@ -190,7 +191,7 @@ NotRecent(\var{uID}) := \Pi_{\var{OU1.uID}}
 	\sigma_{OU1.\var{lastSeen} < OU2.\var{lastSeen}}
 	(\rho_{OU1}OpenUser \times \rho_{OU2}OpenUser)
 $\\\\
-\hspace*{1cm} -- Get uID's of the most recent open users
+\hspace*{1cm} -- Get uID's of the most recent open users \\ [5pt]
 $
 MostRecent(\var{uID}) := LastSeenAll - NotRecent
 $\\\\
@@ -267,12 +268,8 @@ $
 
 }
 \item   % ----------
-For each user and contact, report the time that the first direct message was sent from the user to the
-contact and the time the last direct message was sent. Return the uid of the user (in an attribute
-named user) and the contact (in an attribute named contact) and the first time (earliest) (in an
-attribute named first) and last (most recent) time (in an attribute named last). If a user has not
-sent any direct messages to a contact then include the user and contact with the value 0 for both the
-first and last times. \\ [5pt]
+For each user and contact, report the time that the first direct message was sent from the user to the contact and the time the last direct message was sent. Return the uid of the user (in an attribute named user) and the contact (in an attribute named contact) and the first time (earliest) (in an attribute named first) and last (most recent) time (in an attribute named last). If a user has not
+sent any direct messages to a contact then include the user and contact with the value 0 for both the first and last times. \\ [5pt]
 \large{
 \hspace*{1cm} -- Get all direct messages \\ [5pt]
 $
@@ -353,25 +350,6 @@ Q9(uID, lastSeen, Photo, Profile) := Spammer \bowtie Privacy \\ [5pt]
 $
 }
 
-\item   % ----------
-A comment is said to have either positive or negative sentiment
-based on the presence of words such as ``like,'' ``love,'' ``dislike,'' and ``hate.'' 
-A ``sentiment shift" in the comments on a post occurs at moment $m$ iff
-all comments on that post before $m$ have positive sentiment, 
-while all comments on that post after $m$ have negative sentiment ---
-or the other way around, with comments shifting from negative to positive sentiment.
-
-Find posts that have at least three comments and for which there has been a sentiment shift over time. 
-For each post, report the user who owns it and,
-for each comment on the post,
-the commenter's id, 
-the date of their comment and its sentiment.
-
-You may assume there is a function, called {\it sentiment}
-that can be applied to a comment's text and 
-returns the sentiment of the comment as a string with the value ``positive" or ``negative".
-For example,
-you may refer to $sentiment(text)$ in the condition of a select operator.
 
 \end{enumerate}
 
