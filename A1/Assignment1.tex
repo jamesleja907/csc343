@@ -11,7 +11,8 @@
 \noindent
 University of Toronto\\
 {\sc csc}343, Fall 2017\\[10pt]
-{\LARGE\bf Assignment 1: James Leja 1002527571 Chris Stalzer - need Chris's student \#} \\[10pt]
+{\LARGE\bf Assignment 1: James Leja 1002527571 \\\\\
+\hspace*{4.3cm} Christopher Stalzer 1002155286} \\[10pt]
 
 \noindent
 Unary operators on relations:
@@ -260,7 +261,7 @@ Return all pairs of users with the same name. Return the two uids and the common
 each pair only once. (For example, if user 1 and user 2 are both named 'Pat', then return either [1, 2,
 'Pat'] or [2, 1, 'Pat'] but not both). \\ [5pt]
 \large{
-\hspace*{1cm} -- Get the uID's and name of each pair of users with the same name. \\ [5 pt]
+\hspace*{1cm} -- Get the uid's and name of each pair of users with the same name. \\ [5 pt]
 $
 Q7(uId, uId, Name) := \Pi_{\var{U1.uID}, \var{U2.uID}, \var{U1.name}}
 	 \sigma_{\substack{{\var{U1.uID}}  <  \var{U2.uID} \\
@@ -274,43 +275,46 @@ sent any direct messages to a contact then include the user and contact with the
 \large{
 \hspace*{1cm} -- Get all direct messages \\ [5pt]
 $
-dMessage(mID, from, to, content, time) := \Pi_{\var{mID}, \var{from}, \var{to}, \var{content}, \var{time}} \\
-\sigma_{\var{Message.to} = \var{User.uID}} Message \times User \\ [5pt]
+dMessage(mID, from, to, time) := \\ [5pt] 
+\hspace*{1cm} \Pi_{mID, from, to, time} \sigma_{Message.to} = User.uid Message \times User \\ [5pt]
 $
+\hspace*{1cm} -- Return uid's of Users that have sent no messages, and append two 0 attributes  \\[5pt]
 $
-NoMessages(\var{uID }, \var{uID}, \var{0}, \var{0}) := \Pi_{\var{uID}, \var{contact}} \\
- Contact -  \Pi_{\var{to}, \var{from}} dMessage
+NoMessages({uid, uid, 0, 0) := \Pi_{uid, contact} (Contact)  -  \Pi_{to}, from}( dMessage) \\ [5pt]
 $
+\hspace*{1cm} --Gather all but the earliest messages \\[5pt]
 $
-AllButEarliest(mID, from, to, content, time) := \Pi_{\var{M1.mID}, \var{M1.from},\\
-					\var{M1.content}, \var{M1.time}} \\
-					\sigma_{\substack{ \var{M1.time} > \var{M2.time} \\
-					\wedge M1.from = M2.from \\
-					\wedge \var{M1.to} = \var{M2.to}}} \\
-					\rho_{\var{M1}} dMessage \times \rho_{\var{M2}} dMessage
+AllButEarliest(mID, from, to, time) := \\
+\hspace*{1cm} \Pi_{M1.mid, M1.from, M1.time} \: \sigma_{\substack{ M1.time> M2.time \\
+					\wedge \: M1.from = M2.from \\
+					\wedge \: M1.to = M2.to}} \rho_{M1} dMessage \times \rho_{M2} dMessage \\[5pt]
 $
+\hspace*{1cm} --Get the earliest messages of each user  \\[5pt]
 $
-Earliest(mID, from, to, content, time) := dMessage - AllButEarliest
+Earliest(mID, from, to, content, time) := dMessage - AllButEarliest \\[5pt]
 $
+\hspace*{1cm} --Gather all but the latest direct messages messages  \\[5pt]
 $
-AllButLatest(mID, from, to, content, time) := \Pi_{\var{M1.mID}, \var{M1.from}, \\
-					\var{M1.content},\var{M1.time}} \\
-					\sigma_{\substack{ \var{M1.time} < \var{M2.time} \\
-					\wedge \var{M1.from} = \var{M2.from} \\
-					\wedge \var{M1.to} = \var{M2.to}}}
-					\rho_{\var{M1}} dMessage \times \rho_{\var{M2}} dMessage
+AllButLatest(mid, from, to, time) := \\ 
+\hspace*{1cm} \Pi_{M1.mid, M1.from, M1.time} \sigma_{\substack{M1.time < M2.time \\
+					\wedge \: M1.from = M2.from \\
+					\wedge \: M1.to = M2.to}}
+					\rho_{M1} dMessage \times \rho_{M2} dMessage \\ [5pt]
 $
+\hspace*{1cm} --Get the latest messages for each user  \\[5pt]
 $
-Latest(mID, from, to, content, time) := dMessage - AllButLatest
+Latest(mid, from, to, time) := dMessage - AllButLatest\\ [5pt]
 $
+\hspace*{1cm} --Combine earliest and latest and return the from uid, to uid, and their times  \\[5pt]
 $
-Earliest\&Latest(uID, uID, time, time) := \Pi_{\var{E.from}, \var{E.to}, \var{E.time}, \var{L.time}}\\
-					\sigma_{\substack{E.from = L.from
-					\wedge E.to = L.to}}
-					\rho_{E}Earliest \times \rho_{L}Latest
+EarliestLatest(uid, uIid, time, time) := \\
+\hspace*{1cm} \Pi_{E.from, E.to, E.time, L.time} \:
+					 \sigma_{\substack{E.from = L.from \\
+					 \wedge \: E.to = L.to}} \: \rho_{E}Earliest \times \rho_{L}Latest \\ [5pt]
 $
+\hspace*{1cm} --Return User's first and last message and their times and Users with no messages \\ [5pt]
 $
-Q8(User, Contact, First, Last) := Earliest\&Lastest \cap NoMessages  \\ [5pt]
+Q8(User, Contact, First, Last) := EarliestLastest \cap NoMessages  \\ [5pt]
 $
 
 }
@@ -368,8 +372,13 @@ and then use them in an integrity constraint.
 \begin{enumerate}
 
 \item   % ----------
-The receiver (Message[to]) of a message must be either a user (User[uid]) or a group (Group[gid]).
-
+The receiver (Message[to]) of a message must be either a user (User[uid]) or a group (Group[gid]). \\ [5pt]
+\large{
+\hspace*{1cm} -- Comment?\\ [5pt]
+$
+Message[to] - (User[uid] \cap Group[gid]) =  \emptyset \\[5pt]
+$
+}
 \item %---------
 A user can only send messages to users in her contacts (Contact[contact]) and the time of the message must be after the start of the contact. This includes direct messages sent to a user and messages sent to a group. All members of the group must be in the user's contacts. \\[5pt]
 \large{
@@ -414,8 +423,10 @@ $
 \hspace*{1cm} -- Need to finish with the direct messages part!!! \\ [5pt]
 }
 \item %----------
-The total size of all attachments in a message must be less than 128MB.
+The total size of all attachments in a message must be less than 128MB. \\[5pt]
+\hspace*{1cm} -- Cannot be expressed
 
+ 
 \item
 The Status relation may not contain a message and user if the message was not sent to that user (either directly or the user was part of a group that received the message).
 
