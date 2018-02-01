@@ -201,8 +201,8 @@ $\\\\
 $
 Q5(\var{uID}, \var{name}, \var{lastSeen}) := 
 	\Pi_{\var{Uid}, \var{name}, \var{lastSeen}} 
-	(User \bowtie_{user.\var{uID} = MostRecent.\var{uID}})
-$\\\\
+	(User \bowtie_{user.\var{uID} = MostRecent.\var{uID}}) \\ 
+$
 }
 
 \item   % ----------
@@ -253,14 +253,13 @@ NotInOrder(\var{uID}) := \\ [5pt]
 $
 $
 Q6(uID) := 
-	\Pi_{\var{uID}} User - NotInOrder
-$
+	\Pi_{\var{uID}} User - NotInOrder 
+$\\\\
 }
+
 \item   % ----------
-Return all pairs of users with the same name. Return the two uids and the common name. Return
-each pair only once. (For example, if user 1 and user 2 are both named 'Pat', then return either [1, 2,
-'Pat'] or [2, 1, 'Pat'] but not both). \\ [5pt]
-\large{
+Return all pairs of users with the same name. Return the two uids and the common name. Return each pair only once. (For example, if user 1 and user 2 are both named 'Pat', then return either [1, 2, 'Pat'] or [2, 1, 'Pat'] but not both). \\ [5pt]
+{\large
 \hspace*{1cm} -- Get the uid's and name of each pair of users with the same name. \\ [5 pt]
 $
 Q7(uId, uId, Name) := \Pi_{\var{U1.uID}, \var{U2.uID}, \var{U1.name}}
@@ -314,21 +313,12 @@ EarliestLatest(uid, uIid, time, time) := \\
 $
 \hspace*{1cm} --Return User's first and last message and their times and Users with no messages \\ [5pt]
 $
-Q8(User, Contact, First, Last) := EarliestLastest \cap NoMessages  \\ [5pt]
+Q8(User, Contact, First, Last) := EarliestLastest \cap NoMessages  \\ 
 $
-
 }
 
 \item   % ----------
-A 'spammer' is a user who posts unwanted direct messages that are not read. A spammer must have
-sent at least direct message (so this message will appear in the Status relation). Because users may not
-be aware that someone is a spammer, they may read some of their initial messages. However, once they
-decide a certain user is a spammer, the receivers stop reading all messages from the spammer. This
-means that for a user who is sent a direct message from a spammer there are no delivered messages
-with a time that is earlier than any read message from the spammer. Return the spammer's user id
-and all their privacy settings (Privacy.lastSeen, Privacy.photo, Privacy.profile).
-Do not consider groups for this question. Only consider direct messages sent from a user to another
-single user (not to a group). \\ [5pt]
+A 'spammer' is a user who posts unwanted direct messages that are not read. A spammer must have sent at least direct message (so this message will appear in the Status relation). Because users may not be aware that someone is a spammer, they may read some of their initial messages. However, once they decide a certain user is a spammer, the receivers stop reading all messages from the spammer. This means that for a user who is sent a direct message from a spammer there are no delivered messages with a time that is earlier than any read message from the spammer. Return the spammer's user id and all their privacy settings (Privacy.lastSeen, Privacy.photo, Privacy.profile). Do not consider groups for this question. Only consider direct messages sent from a user to another single user (not to a group). \\ [5pt]
 \large{
 \hspace*{1cm} -- Get all direct messages. \\ [5pt]
 $
@@ -380,7 +370,7 @@ Message[to] - (User[uid] \cap Group[gid]) =  \emptyset \\[5pt]
 $
 }
 \item %---------
-A user can only send messages to users in her contacts (Contact[contact]) and the time of the message must be after the start of the contact. This includes direct messages sent to a user and messages sent to a group. All members of the group must be in the user's contacts. \\[5pt]
+A user can only send messages to users in her contacts (Contact[contact]) and the time of the message must be after the start of the contact. This includes direct messages sent to a user and messages sent to a group. All members of the group must be in the user's contacts. \\\\ [5pt]
 \large{
 \hspace*{1cm} -- All the direct messages. \\ [5pt]
 $
@@ -391,13 +381,13 @@ DirectMsg(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}) := \\ [5pt
 							Message.content, \\
 							Message.time}}
 			\sigma_{Message.to = User.uid}
-			(Message \times \Pi_{\var{uid}} User) \\ [5pt]
+			(Message \times \Pi_{\var{uid}} User) \\\\\\ [5pt]
 $
 \hspace*{1cm} -- All the group messages. \\ [5pt]
 $
-GroupMsg := Message - DirectMsg \\ [5pt]
+GroupMsg := Message - DirectMsg \\\\ [5pt]
 $
-\hspace*{1cm} -- Make a relation of all the combinations of group messages and group where the constraints are followed (i.e. all members of the group are part of the sender's contacts, and the message was sent after the contact start time). \\ [5pt]
+\hspace*{1cm} -- A relation of all the combinations of group messages and group where the constraints are followed (i.e. all members of the group are part of the sender's contacts, and the message was sent after the contact start time). \\ [5pt]
 $
 GrpCorrect(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gid}, \var{uid}) := \\ [5pt]
 \hspace*{1cm} \Pi_{\substack{GroupMsg.mid, \\
@@ -411,14 +401,14 @@ GrpCorrect(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gid}
 					\wedge GroupMsg.to = Group.gid \\
 					\wedge Group.uid = Contact.contact \\
 					\wedge GroupMsg.time > Contact.start}}
-			(GroupMsg \times Group \times Contact) \\ [5pt]
+			(GroupMsg \times Group \times Contact) \\\\\\ [5pt]
 $
 \hspace*{1cm} -- Get all the instances that violate the group constraint. \\ [5pt]
 $
-GrpViolators(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gid}, \var{uid}) := \\
+GrpViolators(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gid}, \var{uid}) := \\ [5pt]
 	\hspace*{1cm}
 	(\sigma_{\var{GroupMsg.to} = {Group.gid}}
-	(GroupMsg \times Group )) - GrpCorrect \\ [5pt]
+	(GroupMsg \times Group )) - GrpCorrect \\\\ [5pt]
 $
 \hspace*{1cm} -- Get all the mids where a user sends a direct message to a contact, and the message is sent after Contact.start. \\ [5pt]
 $
@@ -427,13 +417,13 @@ DirCorrect(\var{mid}) :=
 	(\sigma_{\substack{DirectMsg.from = Contact.user \\
 			\wedge DirectMsg.to = Contact.contact \\
 			\wedge DirectMsg.time > Contact.start}}
-			(DirectMsg \times Contact)) \\ [5pt]
+			(DirectMsg \times Contact)) \\\\\\ [5pt]
 $
 \hspace*{1cm} -- Get all the message mids that violate the direct message constraint. \\ [5pt]
 $
 DirViolators(\var{mid}) :=
 	\Pi_{\var{mid}}
-	DirectMsg - DirCorrect \\ [5pt]
+	DirectMsg - DirCorrect \\\\[5pt]
 $
 \hspace*{1cm} -- Expressing the entire integrity constraint. \\ [5pt]
 $
@@ -446,21 +436,22 @@ The total size of all attachments in a message must be less than 128MB. \\[5pt]
 
  
 \item
-The Status relation may not contain a message and user if the message was not sent to that user (either directly or the user was part of a group that received the message). \\ [5pt]
+The Status relation may not contain a message and user if the message was not sent to that user (either directly or the user was part of a group that received the message). \\\\ [5pt]
+{\large
 \hspace*{1cm} -- Natural join of Status and Message.\\ [5pt]
 $
 MsgWithStatus(\var{mid}, \var{uid}, \var{status}, \var{from}, \var{to}, \var{content}, \var{time}) := 
-	Status \bowtie Message \\ [5pt]
+	Status \bowtie Message \\\\ [5pt]
 $ 
 \hspace*{1cm} -- Get the group messages from MsgWithStatus. \\ [5pt]
 $
 GrpMsgWithStatus :=
-	\sigma_{MsgWithStatus.uid != MsgWithStatus.to} MsgWithStatus \\ [5pt]
+	\sigma_{MsgWithStatus.uid != MsgWithStatus.to} \; MsgWithStatus \\\\ [5pt]
 $
 \hspace*{1cm} -- Get the direct messages from MsgWithStatus. \\ [5pt]
 $
 DirMsgWithStatus :=
-	MsgWithStatus - GroupMsgWtihStatus \\ [5pt]
+	MsgWithStatus - GroupMsgWithStatus \\\\ [5pt]
 $
 \hspace*{1cm} -- All the instances where a messsage was sent to a group, and a user in that \hspace*{1cm}group has a tuple in status \\ [5pt]
 $
@@ -468,18 +459,19 @@ GroupStatus(\var{mid}, \var{uid}, \var{status}) := \\ [5pt]
 	\hspace*{1cm}\Pi_{\var{mid}, \var{uid}, \var{status}}
 	(\sigma_{\substack{GrpMsgWithStatus.to = Group.gid \\
 			\wedge GrpMsgWithStatus.uid = Group.uid}}
-			(GrpMsgWithStatus \times Group)) \\ [5pt]
+			(GrpMsgWithStatus \times Group)) \\\\\\ [5pt]
 $
 \hspace*{1cm} -- All instances that should make up Status. \\ [5pt]
 $
 ShouldBeStatus :=
 	GroupStatus \cup
-	\Pi_{\var{mid}, \var{uid}, \var{status}} DirMsgWithStatus \\ [5pt]
+	\Pi_{\var{mid}, \var{uid}, \var{status}} DirMsgWithStatus \\\\ [5pt]
 $
 \hspace*{1cm} -- The integrity constraint. \\ [5pt]
 $
 Status - ShouldBeStatus = \emptyset
 $
+}
 \end{enumerate}
 
 \end{document}
