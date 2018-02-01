@@ -14,53 +14,53 @@ University of Toronto\\
 {\LARGE\bf Assignment 1: James Leja 1002527571 \\\\\
 \hspace*{4.3cm} Christopher Stalzer 1002155286} \\[10pt]
 
-\noindent
-Unary operators on relations:
-\begin{itemize}
-\item $\Pi_{x, y, z} (R)$
-\item $\sigma_{condition} (R) $
-\item $\rho_{New} (R) $
-\item $\rho_{New(a, b, c)} (R) $
-\end{itemize}
-Binary operators on relations:
-\begin{itemize}
-\item $R \times S$
-\item $R \bowtie S$
-\item $R \bowtie_{condition} S$
-\item $R \cup S$
-\item $R \cap S$
-\item $R - S$
-\end{itemize}
-Logical operators:
-\begin{itemize}
-\item $\vee$
-\item $\wedge$
-\item $\neg$
-\end{itemize}
-Assignment:
-\begin{itemize}
-\item $New(a, b, c) := R$
-\end{itemize}
-Stacked subscripts:
-\begin{itemize}
-\item
-$\sigma_{\substack{this.something > that.something \wedge \\ this.otherthing \leq that.otherthing}}$
-\end{itemize}
-
-\noindent
-Below is the text of the assignment questions; we suggest you include it in your solution.
-We have also included a nonsense example of how a query might look in LaTeX.  
-We used \verb|\var| in a couple of places to show what that looks like.  
-If you leave it out, most of the time the algebra looks okay, but certain words,
-{\it e.g.}, ``Offer" look horrific without it.
-
-The characters ``\verb|\\|" create a line break and ``[5pt]" puts in 
-five points of extra vertical space.  The algebra is easier to read with extra
-vertical space.
-We chose ``--" to indicate comments, and added less vertical space between comments
-and the algebra they pertain to than between steps in the algebra.
-This helps the comments visually stick to the algebra.
-
+%\noindent
+%Unary operators on relations:
+%\begin{itemize}
+%\item $\Pi_{x, y, z} (R)$
+%\item $\sigma_{condition} (R) $
+%\item $\rho_{New} (R) $
+%\item $\rho_{New(a, b, c)} (R) $
+%\end{itemize}
+%Binary operators on relations:
+%\begin{itemize}
+%\item $R \times S$
+%\item $R \bowtie S$
+%\item $R \bowtie_{condition} S$
+%\item $R \cup S$
+%\item $R \cap S$
+%\item $R - S$
+%\end{itemize}
+%Logical operators:
+%\begin{itemize}
+%\item $\vee$
+%\item $\wedge$
+%\item $\neg$
+%\end{itemize}
+%Assignment:
+%\begin{itemize}
+%\item $New(a, b, c) := R$
+%\end{itemize}
+%Stacked subscripts:
+%\begin{itemize}
+%\item
+%$\sigma_{\substack{this.something > that.something \wedge \\ this.otherthing \leq that.otherthing}}$
+%\end{itemize}
+%
+%\noindent
+%Below is the text of the assignment questions; we suggest you include it in your solution.
+%We have also included a nonsense example of how a query might look in LaTeX.  
+%We used \verb|\var| in a couple of places to show what that looks like.  
+%If you leave it out, most of the time the algebra looks okay, but certain words,
+%{\it e.g.}, ``Offer" look horrific without it.
+%
+%The characters ``\verb|\\|" create a line break and ``[5pt]" puts in 
+%five points of extra vertical space.  The algebra is easier to read with extra
+%vertical space.
+%We chose ``--" to indicate comments, and added less vertical space between comments
+%and the algebra they pertain to than between steps in the algebra.
+%This helps the comments visually stick to the algebra.
+%
 
 %----------------------------------------------------------------------------------------------------------------------
 \section*{Part 1: Queries}
@@ -71,25 +71,25 @@ This helps the comments visually stick to the algebra.
 Find all the users who have never sent a message, but who have been sent at least one message. The message may have been sent to the user or to a group that the user belongs to. Report each user id. \\
 
 {\large %This increase in font size makes the subscripts much more readable.
-\hspace*{1cm} --  uIDs of users who have sent a message. \\ [5pt]
+\hspace*{1cm} --  uids of users who have sent a message. \\ [5pt]
 $
 hasSent(\var{uid}) :=
 	\Pi_{\var{user.uid}}\;	%The \; adds space  
 	(\sigma_{message.from = user.uid} 
-	(Message \times User)) \\[10pt]
+	(Message \times User)) \\\\[5pt]
 $
-\hspace*{1cm} -- uID of users who have received a message. \\[5pt]
+\hspace*{1cm} -- uids of users who have received a message. \\[5pt]
 $
 hasReceived(\var{uid}) := 
 	\Pi_{\var{uid}} 
 	Status 
-	\\[10pt]
+	\\\\[5pt]
 $
-\hspace*{1cm} -- uID of users who have never sent a message. \\[5pt]
+\hspace*{1cm} -- uids of users who have never sent a message. \\[5pt]
 $
 neverSent(\var{uID}) := 
 	\Pi_{\var{uID}} User - hasSent 
-	\\[10pt]
+	\\\\[5pt]
 $
 $
 Q1(\var{uID}) :=
@@ -109,24 +109,24 @@ $
 	\sigma_{time.year = 2017} Message
 $\\
 
-\hspace*{1cm} -- Get all the uIDs of the users who sent 3 or more messages in 2017. \\ [5pt]
+\hspace*{1cm} -- Get all the uids of the users who sent 3 or more messages in 2017. \\ [5pt]
 % The substack below allows you to make multiple lines within one sigma. 
 $
-3orMore2017(\var{uID}) := \\ [5pt]
+3orMore2017(\var{uid}) := \\ [5pt]
 	% This command creates an indentation
-	\Pi_{M1.\var{uID}}( 
+	\Pi_{M1.\var{uid}}( 
 	\sigma_{\substack{ 
 		M1.\var{from} = M2.\var{from} \\ 
 		\wedge M1.\var{from} = M3.\var{from} \\
 		\wedge M1.\var{mid} \neq M2.\var{mid} \\
 		\wedge M2.\var{mid} \neq M3.\var{mid} \\
 		\wedge M1.\var{mid} \neq M3.\var{mid} }}
-	[ \rho_{M1}2017Msgs \times \rho_{M2}2017Msgs \times \rho_{M3}2017Msgs ]) \\[5pt]
+	[ \rho_{M1}2017Msgs \times \rho_{M2}2017Msgs \times \rho_{M3}2017Msgs ]) \\\\[5pt]
 $
 
 $
-Q2(uID) := \Pi_{\var{uID}} User - 3orMore2017
-$
+Q2(uid) := \Pi_{\var{uid}} User - 3orMore2017
+$ \\\\
 }
 \item   % ----------	
 Find the largest group. Report the group id. If there is a tie, report them all. \\\\ {\large
@@ -134,40 +134,40 @@ Cannot be expressed. \\
 }
 
 \item   % ---------- 
-Find privacy fanatics, that is, any user who has all her privacy settings set to none and who has never sent a message to another user who has privacy settings different than her own (meaning different than all none). Note that a private user (settings are all none) who has never sent a message would be considered a privacy fanatic. Return the user’s uid and name.
+Find privacy fanatics, that is, any user who has all her privacy settings set to none and who has never sent a message to another user who has privacy settings different than her own (meaning different than all none). Note that a private user (settings are all none) who has never sent a message would be considered a privacy fanatic. Return the user’s uid and name. \\
 
 {\large
-\hspace*{1cm} -- Get the uIDs of the users with all their privacy settings set to none. \\ [5pt]
+\hspace*{1cm} -- Get the uids of the users with all their privacy settings set to none. \\ [5pt]
 $
-PrivUsers(\var{uID}) := 
-	\Pi_{\var{uID}}
+PrivUsers(\var{uid}) := 
+	\Pi_{\var{uid}}
 	(\sigma_{lastSeen = "none" \\
 			\wedge profilePhoto = "none" \\
 			\wedge profile = "none"} Privacy)
 $ \\\\
-\hspace*{1cm} -- Get the uIDs of the "non-private" users. \\ [5pt]
+\hspace*{1cm} -- Get the uids of the "non-private" users. \\ [5pt]
 $
-NonPrivUsers(\var{uID}) :=
-	\Pi_{\var{uID}} Privacy - PrivUsers
+NonPrivUsers(\var{uid}) :=
+	\Pi_{\var{uid}} Privacy - PrivUsers
 $ \\\\
 \hspace*{1cm} -- Get messages sent from private to non-private users.	 \\ [5pt]
 $
-PrivtoNonPriv(\var{uID}) := \\
+PrivtoNonPriv(\var{uid}) := \\
 	\hspace*{1cm}
-	\Pi_{\var{PrivUsers.uID}}
-	(\sigma_{\substack{Message.from = PrivUsers.uID \\
-		 \wedge Message.to = NonPrivUsers.uID}}
+	\Pi_{\var{PrivUsers.uid}}
+	(\sigma_{\substack{Message.from = PrivUsers.uid \\
+		 \wedge Message.to = NonPrivUsers.uid}}
 		(PrivUsers \times NonPrivUsers \times Message))	
-$ \\	\\
-\hspace*{1cm} -- get the uIDs of the private users who only send to other privates. \\ [5pt]
+$ \\	\\\\
+\hspace*{1cm} -- get the uids of the private users who only send to other privates. \\ [5pt]
 $
-PrivtoPriv(\var{uID}) :=
+PrivtoPriv(\var{uid}) :=
 	PrivUsers - PrivtoNonPriv
 $ \\\\
 $
-Q4(\var{uID}, name) :=
-	\Pi_{\var{uID}, \var{name}} (User \bowtie PrivtoPriv)
-$
+Q4(\var{uid}, name) :=
+	\Pi_{\var{uid}, \var{name}} (User \bowtie PrivtoPriv)
+$ \\\\
 
 
 }
@@ -177,69 +177,69 @@ Consider only users whose privacy settings state that everyone may see their las
 {\large
 \hspace*{1cm} -- Get the uid's of all users who's allow everyone to see their lastSeen time. \\ [5pt]
 $
-LastSeenAll(\var{uID}) :=
-	\Pi_{\var{\var{uID}}}
+LastSeenAll(\var{uid}) :=
+	\Pi_{\var{\var{uid}}}
 	(\sigma_{lastSeen = "Everyone"} Privacy)
 $ \\\\
 \hspace*{1cm} -- Get the uID's and times of the users with open privacy settings. \\ [5pt]
 $
-OpenUser(uID, lastSeen) := 
-	\Pi_{user.uID, user.lastSeen}
-	(User \bowtie_{user.uID = LastSeenAll.uID})
+OpenUser(uid, lastSeen) := 
+	\Pi_{user.uid, user.lastSeen}
+	(User \bowtie_{user.uid = LastSeenAll.uid} LastSeenAll)
 $\\\\
 \hspace*{1cm} -- Get all but the most recent lastSeen times of open users. \\ [5pt]
 $
-NotRecent(\var{uID}) := \Pi_{\var{OU1.uID}}
-	\sigma_{OU1.\var{lastSeen} < OU2.\var{lastSeen}}
-	(\rho_{OU1}OpenUser \times \rho_{OU2}OpenUser)
+NotRecent(\var{uid}) := \Pi_{\var{O1.uid}}
+	(\sigma_{O1.\var{lastSeen} < O2.\var{lastSeen}}
+	(\rho_{O1}OpenUser \times \rho_{O2}OpenUser))
 $\\\\
-\hspace*{1cm} -- Get uID's of the most recent open users \\ [5pt]
+\hspace*{1cm} -- Get uid's of the most recent open users \\ [5pt]
 $
-MostRecent(\var{uID}) := LastSeenAll - NotRecent
+MostRecent(\var{uid}) := LastSeenAll - NotRecent
 $\\\\
-\hspace*{1cm} -- Connect the most recent uID's with the User relation to get their names and lastSeen times. \\ [5pt]
+\hspace*{1cm} -- Connect the most recent uid's with the User relation to get their names and lastSeen times. \\ [5pt]
 $
-Q5(\var{uID}, \var{name}, \var{lastSeen}) := 
-	\Pi_{\var{Uid}, \var{name}, \var{lastSeen}} 
-	(User \bowtie_{user.\var{uID} = MostRecent.\var{uID}}) \\ 
+Q5(\var{uid}, \var{name}, \var{lastSeen}) := 
+	\Pi_{\var{uid}, \var{name}, \var{lastSeen}} 
+	(User \bowtie_{user.\var{uid} = MostRecent.\var{uid}} MostRecent) \\ 
 $
 }
 
 \item   % ----------
-A user’s contact list can be sorted by the start time. Find users who send their first direct message to a contact in the same order as the contact list order. So if Sue is Pat’s oldest contact and Jo is the second oldest contact, then Pat’s first direct message to Sue happens before her first direct message to Jo and so on for all contacts. Include users with empty contact lists. Return user’s uid. \\ [5pt]
+A user’s contact list can be sorted by the start time. Find users who send their first direct message to a contact in the same order as the contact list order. So if Sue is Pat’s oldest contact and Jo is the second oldest contact, then Pat’s first direct message to Sue happens before her first direct message to Jo and so on for all contacts. Include users with empty contact lists. Return user’s uid. \\\\ [5pt]
 \large{
 \hspace*{1cm} -- Get the all the messages that have been sent directly to a user. \\ [5pt]
 $
-Dmessage(\var{mID}, \var{from}, \var{to}, \var{time}) := \\
+Dmessage(\var{mid}, \var{from}, \var{to}, \var{time}) := \\
 	\hspace*{1in}
-	\Pi_{\substack{\var{Message.mID} \\
+	\Pi_{\substack{\var{Message.mid} \\
 		\wedge \var{Message.from} \\
 		\wedge \var{Message.to} \\
 		\wedge \var{Message.time}}} 
-	\sigma_{\var{Message.to} = \var{User.uID}}
-	(Message \times \Pi_{\var{uID} User}) \\\\
+	\sigma_{\var{Message.to} = \var{User.uid}}
+	(Message \times \Pi_{\var{uid}} User) \\\\\\
 $
 \hspace*{1cm} -- Get the all but the earliest direct messages. \\ [5pt]
 $
 AllButEarliest := \\
 	\hspace*{1in}
-	\Pi_{\substack{\var{M1.mID} \\
+	\Pi_{\substack{\var{M1.mid} \\
 		\wedge \var{M1.from} \\
 		\wedge \var{M1.to} \\
 		\wedge \var{M1.time}}} 
 	(\sigma_{\substack{\var{M1.to} = \var{M2.to} \\
 		\wedge \var{M1.from} = \var{M2.from} \\
 		\wedge \var{M1.time} > \var{M2.time}}}
-	(\rho_{\var{M1}} DMessage \times \rho_{\var{M2}} DMessage)) \\\\
+	(\rho_{\var{M1}} DMessage \times \rho_{\var{M2}} DMessage)) \\\\\\
 $
 \hspace*{1cm} -- Get the earliest direct messages. \\ [5pt] 
 $
 Earliest = Dmessage - AllButEarliest \\\\
 $
-\hspace*{1cm} -- Get the uIDs of the users whose earliest direct messages are not in the same order as their contact start time. \\ [5pt]
+\hspace*{1cm} -- Get the uids of the users whose earliest direct messages are not in the same order as their contact start time. \\ [5pt]
 $
-NotInOrder(\var{uID}) := \\ [5pt]
-	\Pi_{\var{C1.uID}}
+NotInOrder(\var{uid}) := \\ [5pt]
+	\Pi_{\var{C1.uid}}
 	(\sigma_{\substack{\var{C1.user} = \var{C2.user} \\
 		\wedge \var{C1.user} = \var{E1.from} \\
 		\wedge \var{C1.user} = \var{E2.from} \\
@@ -249,71 +249,71 @@ NotInOrder(\var{uID}) := \\ [5pt]
 		\wedge \var{C1.start} > \var{C2.start} \\
 		\wedge \var{E1.time} < \var{E2.time}}}
 		(\rho_{\var{C1}} Contact \times \rho_{\var{C2}} Contact
-		\times \rho_{\var{E1}} Earliest \times \rho_{\var{E2}} Earliest)) \\ [5pt]
+		\times \rho_{\var{E1}} Earliest \times \rho_{\var{E2}} Earliest)) \\\\\\
 $
 $
-Q6(uID) := 
-	\Pi_{\var{uID}} User - NotInOrder 
+Q6(uid) := 
+	\Pi_{\var{uid}} User - NotInOrder 
 $\\\\
 }
 
 \item   % ----------
 Return all pairs of users with the same name. Return the two uids and the common name. Return each pair only once. (For example, if user 1 and user 2 are both named 'Pat', then return either [1, 2, 'Pat'] or [2, 1, 'Pat'] but not both). \\ [5pt]
 {\large
-\hspace*{1cm} -- Get the uid's and name of each pair of users with the same name. \\ [5 pt]
+\hspace*{1cm} -- Get the uid's and name of each pair of users with the same name. \\ [5pt]
 $
-Q7(uId, uId, Name) := \Pi_{\var{U1.uID}, \var{U2.uID}, \var{U1.name}}
-	 \sigma_{\substack{{\var{U1.uID}}  <  \var{U2.uID} \\
-	  \wedge \var{U1.name} = \var{U2.name}}} (\rho_{\var{U1}} User \times \rho_{U2}User) \\ [5pt]
+Q7(uid, uid, name) := \Pi_{\var{U1.uid}, \var{U2.uid}, \var{U1.name}}
+	 (\sigma_{\substack{\var{U1.uid}  <  \var{U2.uid} \\
+	  \wedge \var{U1.name} = \var{U2.name}}} (\rho_{\var{U1}} User \times \rho_{\var{U2}}User)) \\\\ [5pt]
 $
 
 }
 \item   % ----------
 For each user and contact, report the time that the first direct message was sent from the user to the contact and the time the last direct message was sent. Return the uid of the user (in an attribute named user) and the contact (in an attribute named contact) and the first time (earliest) (in an attribute named first) and last (most recent) time (in an attribute named last). If a user has not
-sent any direct messages to a contact then include the user and contact with the value 0 for both the first and last times. \\ [5pt]
+sent any direct messages to a contact then include the user and contact with the value 0 for both the first and last times. \\\\ [5pt]
 \large{
 \hspace*{1cm} -- Get all direct messages \\ [5pt]
 $
-dMessage(mID, from, to, time) := \\ [5pt] 
-\hspace*{1cm} \Pi_{mID, from, to, time} \sigma_{Message.to} = User.uid Message \times User \\ [5pt]
+dMessage(mid, from, to, time) := \\ [5pt] 
+\hspace*{1cm} \Pi_{mid, from, to, time} (\sigma_{Message.to = User.uid} (Message \times User)) \\\\ [5pt]
 $
 \hspace*{1cm} -- Return uid's of Users that have sent no messages, and append two 0 attributes  \\[5pt]
 $
-NoMessages({uid, uid, 0, 0) := \Pi_{uid, contact} (Contact)  -  \Pi_{to}, from}( dMessage) \\ [5pt]
+NoMessages(uid, uid, 0, 0) := (\Pi_{uid, contact} \; Contact)  -  (\Pi_{to, from} \; dMessage) \\\\[5pt]
 $
 \hspace*{1cm} --Gather all but the earliest messages \\[5pt]
 $
-AllButEarliest(mID, from, to, time) := \\
-\hspace*{1cm} \Pi_{M1.mid, M1.from, M1.time} \: \sigma_{\substack{ M1.time> M2.time \\
+AllButEarliest(mid, from, to, time) := \\
+\hspace*{1cm} \Pi_{M1.mid, M1.from, M1.time} \: (\sigma_{\substack{M1.time>M2.time  \\
 					\wedge \: M1.from = M2.from \\
-					\wedge \: M1.to = M2.to}} \rho_{M1} dMessage \times \rho_{M2} dMessage \\[5pt]
+					\wedge \: M1.to = M2.to}} (\rho_{M1} dMessage \times \rho_{M2} dMessage)) \\\\\\
 $
 \hspace*{1cm} --Get the earliest messages of each user  \\[5pt]
 $
-Earliest(mID, from, to, content, time) := dMessage - AllButEarliest \\[5pt]
+Earliest(mid, from, to, content, time) := dMessage - AllButEarliest \\\\[5pt]
 $
 \hspace*{1cm} --Gather all but the latest direct messages messages  \\[5pt]
 $
 AllButLatest(mid, from, to, time) := \\ 
-\hspace*{1cm} \Pi_{M1.mid, M1.from, M1.time} \sigma_{\substack{M1.time < M2.time \\
+\hspace*{1cm} \Pi_{M1.mid, M1.from, M1.time} (\sigma_{\substack{M1.time < M2.time \\
 					\wedge \: M1.from = M2.from \\
 					\wedge \: M1.to = M2.to}}
-					\rho_{M1} dMessage \times \rho_{M2} dMessage \\ [5pt]
+					(\rho_{M1} dMessage \times \rho_{M2} dMessage) \\\\\\
 $
 \hspace*{1cm} --Get the latest messages for each user  \\[5pt]
 $
-Latest(mid, from, to, time) := dMessage - AllButLatest\\ [5pt]
+Latest(mid, from, to, time) := dMessage - AllButLatest \\\\ [5pt]
 $
 \hspace*{1cm} --Combine earliest and latest and return the from uid, to uid, and their times  \\[5pt]
 $
-EarliestLatest(uid, uIid, time, time) := \\
+EarliestLatest(uid, uid, time, time) := \\
 \hspace*{1cm} \Pi_{E.from, E.to, E.time, L.time} \:
-					 \sigma_{\substack{E.from = L.from \\
-					 \wedge \: E.to = L.to}} \: \rho_{E}Earliest \times \rho_{L}Latest \\ [5pt]
+					 (\sigma_{\substack{E.from = L.from \\
+					 \wedge \: E.to = L.to}} \: (\rho_{E}Earliest \times \rho_{L}Latest)) \\\\ [5pt]
 $
 \hspace*{1cm} --Return User's first and last message and their times and Users with no messages \\ [5pt]
 $
-Q8(User, Contact, First, Last) := EarliestLastest \cap NoMessages  \\ 
+Q8(user, contact, first, last) := EarliestLastest \cup NoMessages  \\ 
 $
 }
 
@@ -322,23 +322,25 @@ A 'spammer' is a user who posts unwanted direct messages that are not read. A sp
 \large{
 \hspace*{1cm} -- Get all direct messages. \\ [5pt]
 $
-dMessage(mID, from, to, content, time) := \Pi_{\var{mID}, \var{from}, \var{to}, \var{content}, \var{time}} \\
-\sigma_{\var{Message.to} = \var{User.uID}} Message \times User \\ [5pt]
+dMessage(mid, from, to, content, time) := \\
+\hspace*{1cm} \Pi_{\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}} 
+(\sigma_{\var{Message.to} = \var{User.uid}} (Message \times User)) \\\\ [5pt]
 $
-$dMessage\&Status() := dMessage \bowtie Status \\ [5pt]
+$dMessage\&Status() := dMessage \bowtie Status \\\\ [5pt]
 $
 $
-NotSpam(uID) := \Pi_{D1.from} \sigma_{\substack{D1.mID != D2.mID \\
+NotSpam(uid) := \\
+\Pi_{D1.from} (\sigma_{\substack{D1.mid != D2.mid \\
 																\wedge D1.from = D2.from \\
 																\wedge D1.to = D2.to \\
 																\wedge D1.time > D2.time \\
 																\wedge D1.status = "Read \\
 																\wedge D2.status = "Delivered"}}
-																\rho_{D1} dMessage\&Status \times \\
-																\rho_{D2} dMessage\&Status \\ [5pt]
+																(\rho_{D1} dMessage\&Status \times 
+																\rho_{D2} dMessage\&Status)) \\\\\\
 $
 $
-Spammer(uID) := User - NotSpam\\ [5pt]
+Spammer(uid) := \Pi_{\var{uid}} User - NotSpam \\\\ [5pt]
 $
 $
 Q9(uID, lastSeen, Photo, Profile) := Spammer \bowtie Privacy \\ [5pt]													
