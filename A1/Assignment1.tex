@@ -420,7 +420,25 @@ GrpViolators(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gi
 	(\sigma_{\var{GroupMsg.to} = {Group.gid}}
 	(GroupMsg \times Group )) - GrpCorrect \\ [5pt]
 $
-\hspace*{1cm} -- Need to finish with the direct messages part!!! \\ [5pt]
+\hspace*{1cm} -- Get all the mids where a user sends a direct message to a contact, and the message is sent after Contact.start. \\ [5pt]
+$
+DirCorrect(\var{mid}) :=
+	\Pi_{\var{mid}}
+	(\sigma_{\substack{DirectMsg.from = Contact.user \\
+			\wedge DirectMsg.to = Contact.contact \\
+			\wedge DirectMsg.time > Contact.start}}
+			(DirectMsg \times Contact)) \\ [5pt]
+$
+\hspace*{1cm} -- Get all the message mids that violate the direct message constraint. \\ [5pt]
+$
+DirViolators(\var{mid}) :=
+	\Pi_{\var{mid}}
+	DirectMsg - DirCorrect \\ [5pt]
+$
+\hspace*{1cm} -- Expressing the entire integrity constraint. \\ [5pt]
+$
+DirViolators = \emptyset \; \wedge \; GrpViolators = \emptyset \\
+$
 }
 \item %----------
 The total size of all attachments in a message must be less than 128MB. \\[5pt]
@@ -428,8 +446,40 @@ The total size of all attachments in a message must be less than 128MB. \\[5pt]
 
  
 \item
-The Status relation may not contain a message and user if the message was not sent to that user (either directly or the user was part of a group that received the message).
-
+The Status relation may not contain a message and user if the message was not sent to that user (either directly or the user was part of a group that received the message). \\ [5pt]
+\hspace*{1cm} -- Natural join of Status and Message.\\ [5pt]
+$
+MsgWithStatus(\var{mid}, \var{uid}, \var{status}, \var{from}, \var{to}, \var{content}, \var{time}) := 
+	Status \bowtie Message \\ [5pt]
+$ 
+\hspace*{1cm} -- Get the group messages from MsgWithStatus. \\ [5pt]
+$
+GrpMsgWithStatus :=
+	\sigma_{MsgWithStatus.uid != MsgWithStatus.to} MsgWithStatus \\ [5pt]
+$
+\hspace*{1cm} -- Get the direct messages from MsgWithStatus. \\ [5pt]
+$
+DirMsgWithStatus :=
+	MsgWithStatus - GroupMsgWtihStatus \\ [5pt]
+$
+\hspace*{1cm} -- All the instances where a messsage was sent to a group, and a user in that \hspace*{1cm}group has a tuple in status \\ [5pt]
+$
+GroupStatus(\var{mid}, \var{uid}, \var{status}) := \\ [5pt]
+	\hspace*{1cm}\Pi_{\var{mid}, \var{uid}, \var{status}}
+	(\sigma_{\substack{GrpMsgWithStatus.to = Group.gid \\
+			\wedge GrpMsgWithStatus.uid = Group.uid}}
+			(GrpMsgWithStatus \times Group)) \\ [5pt]
+$
+\hspace*{1cm} -- All instances that should make up Status. \\ [5pt]
+$
+ShouldBeStatus :=
+	GroupStatus \cup
+	\Pi_{\var{mid}, \var{uid}, \var{status}} DirMsgWithStatus \\ [5pt]
+$
+\hspace*{1cm} -- The integrity constraint. \\ [5pt]
+$
+Status - ShouldBeStatus = \emptyset
+$
 \end{enumerate}
 
 \end{document}
