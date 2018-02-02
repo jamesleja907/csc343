@@ -282,7 +282,9 @@ DMessage(mid, from, to, time) := \\ [5pt]
 $
 \hspace*{1cm} -- Get the uids of Users and Contacts, where a user has sent no messages to their contact, and append two 0 attributes for earliest and latest time.  \\[5pt]
 $
-NoMessages(from, to, 0, 0) := (\Pi_{uid, contact} \; Contact)  -  (\Pi_{to, from} \; DMessage) \\\\[5pt]
+NoMessages(user, contact, first, last) :=  \\[5pt]
+\hspace*{1cm} \Pi_{C1.to, C1.from, '0', '0'}(\Pi_{to, from} (\rho_{C1(to, from, start)}
+			 Contact))  -  (\Pi_{to, from} \; DMessage) \\\\[5pt]
 $
 \hspace*{1cm} --Gather all but the earliest messages. \\[5pt]
 $
