@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  2 FEB 2018 13:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  2 FEB 2018 14:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -306,32 +306,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 275--324
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 326--354
+Underfull \hbox (badness 10000) in paragraph at lines 326--359
 $
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 326--354
+Underfull \hbox (badness 10000) in paragraph at lines 326--359
 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 372--380
+Underfull \hbox (badness 10000) in paragraph at lines 377--385
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 380--441
+Underfull \hbox (badness 10000) in paragraph at lines 385--446
 
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 441--443
+Underfull \hbox (badness 10000) in paragraph at lines 446--448
 
  []
 
 
-Overfull \hbox (4.11293pt too wide) in paragraph at lines 446--484
+Overfull \hbox (4.11293pt too wide) in paragraph at lines 451--489
 \OML/cmm/m/it/12 ShouldBeStatus\OT1/cmr/m/n/12 ([]\OML/cmm/m/it/12 ; []; []\OT1
 /cmr/m/n/12 ) := \OML/cmm/m/it/12 GroupStatus \OMS/cmsy/m/n/12 [ \OT1/cmr/m/n/1
 2 (^^E[]\OML/cmm/m/it/12 DirMsgWithStatus\OT1/cmr/m/n/12 )[] 
@@ -360,7 +360,7 @@ s/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts
 m/cmsy8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmti12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mti8.pfb>
-Output written on Assignment1.pdf (8 pages, 170202 bytes).
+Output written on Assignment1.pdf (8 pages, 170475 bytes).
 PDF statistics:
  83 PDF objects out of 1000 (max. 8388607)
  59 compressed objects within 1 object stream
