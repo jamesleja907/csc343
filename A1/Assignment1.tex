@@ -71,21 +71,21 @@ University of Toronto\\
 Find all the users who have never sent a message, but who have been sent at least one message. The message may have been sent to the user or to a group that the user belongs to. Report each user id. \\
 
 {\large %This increase in font size makes the subscripts much more readable.
-\hspace*{1cm} --  uids of users who have sent a message. \\ [5pt]
+\hspace*{1cm} --  The uids of users who have sent a message. \\ [5pt]
 $
 hasSent(\var{uid}) :=
 	\Pi_{\var{User.uid}}\;	%The \; adds space  
 	(\sigma_{Message.from = User.uid} 
 	(Message \times User)) \\\\[5pt]
 $
-\hspace*{1cm} -- uids of users who have received a message. \\[5pt]
+\hspace*{1cm} -- The uids of users who have received a message. \\[5pt]
 $
 hasReceived(\var{uid}) := 
 	\Pi_{\var{uid}} 
 	Status 
 	\\\\[5pt]
 $
-\hspace*{1cm} -- uids of users who have never sent a message. \\[5pt]
+\hspace*{1cm} -- The uids of users who have never sent a message. \\[5pt]
 $
 neverSent(\var{uid}) := 
 	(\Pi_{\var{uid}} User) - hasSent 
@@ -103,7 +103,7 @@ $\\\\ % skips two lines...not sure how much we want to separate questions
 Net neutrality is dead, so EVL ISP wants to slow the service of poor users (users who do not use the app enough). To do this, find the users (and return their uid) who sent two or fewer messages in 2017.\\\\
 {\large
 % Started indenting comments...might be cleaner.
-\hspace*{1cm} -- Get all the messages that were sent in 2017 \\ [5pt]
+\hspace*{1cm} -- Get all the messages that were sent in 2017. \\ [5pt]
 $
 2017Msgs(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}) :=
 	\sigma_{time.year = 2017} Message
@@ -159,7 +159,7 @@ PrivToNonPriv(\var{uid}) := \\
 		 \wedge Message.to = NonPrivUsers.uid}}
 		(PrivUsers \times NonPrivUsers \times Message))	
 $ \\	\\\\
-\hspace*{1cm} -- get the uids of the private users who only send to other privates. \\ [5pt]
+\hspace*{1cm} -- Get the uids of the private users who only send to other privates. \\ [5pt]
 $
 PrivToPriv(\var{uid}) :=
 	PrivUsers - PrivToNonPriv
@@ -193,11 +193,11 @@ NotRecent(\var{uid}) := \Pi_{\var{O1.uid}}
 	(\sigma_{O1.\var{lastSeen} < O2.\var{lastSeen}}
 	(\rho_{O1}OpenUser \times \rho_{O2}OpenUser))
 $\\\\\\
-\hspace*{1cm} -- Get uids of the most recent open users \\ [5pt]
+\hspace*{1cm} -- Get uids of the most recent open users. \\ [5pt]
 $
 MostRecent(\var{uid}) := LastSeenAll - NotRecent
 $\\\\\\
-\hspace*{1cm} -- Connect the most recent uid's with the User relation to get their names and lastSeen times. \\ [5pt]
+\hspace*{1cm} -- Connect the most recent uid's with the User relation to get their names and \hspace*{1cm} lastSeen times. \\ [5pt]
 $
 Q5(\var{uid}, \var{name}, \var{lastSeen}) := 
 	\Pi_{\var{uid}, \var{name}, \var{lastSeen}} 
@@ -236,7 +236,7 @@ $
 $
 Earliest(\var{mid}, \var{from}, \var{to}, \var{time}) = DMessage - AllButEarliest \\\\
 $
-\hspace*{1cm} -- Get the uids of the users whose earliest direct messages are not in the same order as their contact start time. \\ [5pt]
+\hspace*{1cm} -- Get the uids of the users whose earliest direct messages are not in the same \hspace*{1cm} order as their contact start time. \\ [5pt]
 $
 NotInOrder(\var{uid}) := \\ [5pt]
 	\Pi_{\var{C1.uid}}
@@ -275,12 +275,12 @@ $
 For each user and contact, report the time that the first direct message was sent from the user to the contact and the time the last direct message was sent. Return the uid of the user (in an attribute named user) and the contact (in an attribute named contact) and the first time (earliest) (in an attribute named first) and last (most recent) time (in an attribute named last). If a user has not
 sent any direct messages to a contact then include the user and contact with the value 0 for both the first and last times. \\\\ [5pt]
 \large{
-\hspace*{1cm} -- Get all direct messages \\ [5pt]
+\hspace*{1cm} -- Get all direct messages. \\ [5pt]
 $
 DMessage(mid, from, to, time) := \\ [5pt] 
 \hspace*{1cm} \Pi_{mid, from, to, time} (\sigma_{Message.to = User.uid} (Message \times User)) \\\\ [5pt]
 $
-\hspace*{1cm} -- Get the uids of Users and Contacts, where a user has sent no messages to their contact, and append two 0 attributes for earliest and latest time.  \\[5pt]
+\hspace*{1cm} -- Get the uids of Users and Contacts, where a user has sent no messages to their \hspace*{1cm} contact, and append two 0 attributes for earliest and latest time.  \\[5pt]
 $
 NoMessages(user, contact, first, last) :=  \\[5pt]
 \hspace*{1cm} \Pi_{C1.to, C1.from, '0', '0'}(\Pi_{to, from} (\rho_{C1(to, from, start)}
@@ -309,14 +309,14 @@ $
 $
 Latest(mid, from, to, time) := DMessage - AllButLatest \\\\ [5pt]
 $
-\hspace*{1cm} --Combine earliest and latest and return the from uid, to uid, and their earliest and latest times.  \\[5pt]
+\hspace*{1cm} --Combine earliest and latest and return the from uid, to uid, and their earliest \hspace*{1cm} and latest times.  \\[5pt]
 $
 EarliestLatest(user, contact, first, last) := \\
 \hspace*{1cm} \Pi_{E.from, E.to, E.time, L.time} \:
 					 (\sigma_{\substack{E.from = L.from \\
 					 \wedge \: E.to = L.to}} \: (\rho_{E}Earliest \times \rho_{L}Latest)) \\\\ [5pt]
 $
-\hspace*{1cm} --Return User's first and last message and their times and Users with no messages \\ [5pt]
+\hspace*{1cm} --Return User's first and last message and their times and Users with no messages. \\ [5pt]
 $
 Q8(user, contact, first, last) := EarliestLastest \cup NoMessages  \\ 
 $
@@ -394,7 +394,7 @@ $
 $
 GroupMsg(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}) := Message - DirectMsg \\\\ [5pt]
 $
-\hspace*{1cm} -- A relation of all the combinations of group messages and group where the constraints are followed (i.e. all members of the group are part of the sender's contacts, and the message was sent after the contact start time). \\ [5pt]
+\hspace*{1cm} -- A relation of all the combinations of group messages and group where the \\ \hspace*{1cm} constraints are followed (i.e. all members of the group are part of the sender's \hspace*{1cm} contacts, and the message was sent after the contact start time). \\ [5pt]
 $
 GrpCorrect(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gid}, \var{uid}) := \\ [5pt]
 \hspace*{1cm} \Pi_{\substack{GroupMsg.mid, \\
@@ -417,7 +417,7 @@ GrpViolators(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gi
 	(\sigma_{\var{GroupMsg.to} = {Group.gid}}
 	(GroupMsg \times Group )) - GrpCorrect \\\\ [5pt]
 $
-\hspace*{1cm} -- Get all the mids where a user sends a direct message to a contact, and the message is sent after Contact.start. \\ [5pt]
+\hspace*{1cm} -- Get all the mids where a user sends a direct message to a contact, and the \hspace*{1cm} message is sent after Contact.start. \\ [5pt]
 $
 DirCorrect(\var{mid}) :=
 	\Pi_{\var{mid}}
@@ -462,7 +462,7 @@ DirMsgWithStatus(\var{mid}, \var{uid}, \var{status}, \var{from}, \var{to}, \var{
 \hspace*{1cm}
 	MsgWithStatus - GroupMsgWithStatus \\\\ [5pt]
 $
-\hspace*{1cm} -- All the instances where a messsage was sent to a group, and a user in that \hspace*{1cm}group has a tuple in status \\ [5pt]
+\hspace*{1cm} -- All the instances where a messsage was sent to a group, and a user in that \hspace*{1cm}group has a tuple in Status. \\ [5pt]
 $
 GroupStatus(\var{mid}, \var{uid}, \var{status}) := \\ [5pt]
 	\hspace*{1cm}\Pi_{\var{mid}, \var{uid}, \var{status}}
