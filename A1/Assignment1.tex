@@ -331,11 +331,8 @@ DMessage(mid, from, to, time) := \\
 \hspace*{1cm} \Pi_{\var{mid}, \var{from}, \var{to}, \var{time}} 
 (\sigma_{\var{Message.to} = \var{User.uid}} (Message \times User)) \\\\ [5pt]
 $
-\hspace*{1cm} -- Combine DMessage and Status. \\ [5pt]
+$DMsgAndStatus(mid, from, to, time, uid, status) := DMessage \bowtie Status \\\\ [5pt]
 $
-DMsgAndStatus(mid, from, to, time, uid, status) := DMessage \bowtie Status \\\\ [5pt]
-$
-\hspace*{1cm} -- Get all uids where the sender has sent a 'read' message after a 'delivered'\\ \hspace*{1cm} message. \\[5pt]
 $
 NotSpam(uid) := \\
 \Pi_{D1.from} (\sigma_{\substack{D1.mid != D2.mid \\
@@ -347,11 +344,9 @@ NotSpam(uid) := \\
 																(\rho_{D1} DMsgAndStatus \times 
 																\rho_{D2} DMsgAndStatus)) \\\\\\
 $
-\hspace*{1cm} -- Get the uids of spammers. \\ [5pt]
 $
 Spammer(uid) := (\Pi_{\var{uid}} User) - NotSpam \\\\ [5pt]
 $
-\hspace*{1cm} -- Return the uids and all privacy settings for the spammers. \\[5pt]
 $
 Q9(uid, Privacy.lastSeen, Privacy.photo, Privacy.profile) := Spammer \bowtie Privacy \\ [5pt]													
 $
