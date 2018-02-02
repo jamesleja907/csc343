@@ -74,8 +74,8 @@ Find all the users who have never sent a message, but who have been sent at leas
 \hspace*{1cm} --  uids of users who have sent a message. \\ [5pt]
 $
 hasSent(\var{uid}) :=
-	\Pi_{\var{user.uid}}\;	%The \; adds space  
-	(\sigma_{message.from = user.uid} 
+	\Pi_{\var{User.uid}}\;	%The \; adds space  
+	(\sigma_{Message.from = User.uid} 
 	(Message \times User)) \\\\[5pt]
 $
 \hspace*{1cm} -- uids of users who have received a message. \\[5pt]
@@ -87,12 +87,12 @@ hasReceived(\var{uid}) :=
 $
 \hspace*{1cm} -- uids of users who have never sent a message. \\[5pt]
 $
-neverSent(\var{uID}) := 
-	\Pi_{\var{uID}} User - hasSent 
+neverSent(\var{uid}) := 
+	(\Pi_{\var{uid}} User) - hasSent 
 	\\\\[5pt]
 $
 $
-Q1(\var{uID}) :=
+Q1(\var{uid}) :=
 	neverSent \cap hasReceived
 $\\\\ % skips two lines...not sure how much we want to separate questions
 
@@ -125,7 +125,7 @@ $
 $
 
 $
-Q2(uid) := \Pi_{\var{uid}} User - 3orMore2017
+Q2(uid) := (\Pi_{\var{uid}} User) - 3orMore2017
 $ \\\\
 }
 \item   % ----------	
@@ -148,11 +148,11 @@ $ \\\\
 \hspace*{1cm} -- Get the uids of the "non-private" users. \\ [5pt]
 $
 NonPrivUsers(\var{uid}) :=
-	\Pi_{\var{uid}} Privacy - PrivUsers
+	(\Pi_{\var{uid}} Privacy) - PrivUsers
 $ \\\\
 \hspace*{1cm} -- Get messages sent from private to non-private users.	 \\ [5pt]
 $
-PrivtoNonPriv(\var{uid}) := \\
+PrivToNonPriv(\var{uid}) := \\
 	\hspace*{1cm}
 	\Pi_{\var{PrivUsers.uid}}
 	(\sigma_{\substack{Message.from = PrivUsers.uid \\
@@ -161,47 +161,47 @@ PrivtoNonPriv(\var{uid}) := \\
 $ \\	\\\\
 \hspace*{1cm} -- get the uids of the private users who only send to other privates. \\ [5pt]
 $
-PrivtoPriv(\var{uid}) :=
-	PrivUsers - PrivtoNonPriv
+PrivToPriv(\var{uid}) :=
+	PrivUsers - PrivToNonPriv
 $ \\\\
 $
 Q4(\var{uid}, name) :=
-	\Pi_{\var{uid}, \var{name}} (User \bowtie PrivtoPriv)
+	\Pi_{\var{uid}, \var{name}} (User \bowtie PrivToPriv)
 $ \\\\
 
 
 }
 
 \item   % ----------
-Consider only users whose privacy settings state that everyone may see their lastSeen time (lastSeen = everyone). Among such users, report the uid, name and lastSeen of the user(s) whose lastSeen time is the most recent. Since times are ordered, the most recent time is the largest time value. If there are ties, report all users. These users have the most recent public lastSeen time. \\ [5pt]
+Consider only users whose privacy settings state that everyone may see their lastSeen time (lastSeen = everyone). Among such users, report the uid, name and lastSeen of the user(s) whose lastSeen time is the most recent. Since times are ordered, the most recent time is the largest time value. If there are ties, report all users. These users have the most recent public lastSeen time. \\\\ [5pt]
 {\large
-\hspace*{1cm} -- Get the uid's of all users who's allow everyone to see their lastSeen time. \\ [5pt]
+\hspace*{1cm} -- Get the uids of all users who allows everyone to see their lastSeen time. \\ [5pt]
 $
 LastSeenAll(\var{uid}) :=
 	\Pi_{\var{\var{uid}}}
-	(\sigma_{lastSeen = "Everyone"} Privacy)
-$ \\\\
-\hspace*{1cm} -- Get the uID's and times of the users with open privacy settings. \\ [5pt]
+	(\sigma_{lastSeen = "everyone"} Privacy)
+$ \\\\\\
+\hspace*{1cm} -- Get the uids and times of the users with open privacy settings. \\ [5pt]
 $
 OpenUser(uid, lastSeen) := 
 	\Pi_{user.uid, user.lastSeen}
-	(User \bowtie_{user.uid = LastSeenAll.uid} LastSeenAll)
-$\\\\
+	(User \bowtie LastSeenAll)
+$\\\\\\
 \hspace*{1cm} -- Get all but the most recent lastSeen times of open users. \\ [5pt]
 $
 NotRecent(\var{uid}) := \Pi_{\var{O1.uid}}
 	(\sigma_{O1.\var{lastSeen} < O2.\var{lastSeen}}
 	(\rho_{O1}OpenUser \times \rho_{O2}OpenUser))
-$\\\\
-\hspace*{1cm} -- Get uid's of the most recent open users \\ [5pt]
+$\\\\\\
+\hspace*{1cm} -- Get uids of the most recent open users \\ [5pt]
 $
 MostRecent(\var{uid}) := LastSeenAll - NotRecent
-$\\\\
+$\\\\\\
 \hspace*{1cm} -- Connect the most recent uid's with the User relation to get their names and lastSeen times. \\ [5pt]
 $
 Q5(\var{uid}, \var{name}, \var{lastSeen}) := 
 	\Pi_{\var{uid}, \var{name}, \var{lastSeen}} 
-	(User \bowtie_{user.\var{uid} = MostRecent.\var{uid}} MostRecent) \\ 
+	(User \bowtie MostRecent) \\ 
 $
 }
 
@@ -210,18 +210,18 @@ A user’s contact list can be sorted by the start time. Find users who send the
 \large{
 \hspace*{1cm} -- Get the all the messages that have been sent directly to a user. \\ [5pt]
 $
-Dmessage(\var{mid}, \var{from}, \var{to}, \var{time}) := \\
+DMessage(\var{mid}, \var{from}, \var{to}, \var{time}) := \\
 	\hspace*{1in}
 	\Pi_{\substack{\var{Message.mid} \\
 		\wedge \var{Message.from} \\
 		\wedge \var{Message.to} \\
 		\wedge \var{Message.time}}} 
 	\sigma_{\var{Message.to} = \var{User.uid}}
-	(Message \times \Pi_{\var{uid}} User) \\\\\\
+	(Message \times (\Pi_{\var{uid}} User)) \\\\\\
 $
 \hspace*{1cm} -- Get the all but the earliest direct messages. \\ [5pt]
 $
-AllButEarliest := \\
+AllButEarliest(\var{mid}, \var{from}, \var{to}, \var{time}) := \\
 	\hspace*{1in}
 	\Pi_{\substack{\var{M1.mid} \\
 		\wedge \var{M1.from} \\
@@ -234,7 +234,7 @@ AllButEarliest := \\
 $
 \hspace*{1cm} -- Get the earliest direct messages. \\ [5pt] 
 $
-Earliest = Dmessage - AllButEarliest \\\\
+Earliest(\var{mid}, \var{from}, \var{to}, \var{time}) = DMessage - AllButEarliest \\\\
 $
 \hspace*{1cm} -- Get the uids of the users whose earliest direct messages are not in the same order as their contact start time. \\ [5pt]
 $
@@ -253,16 +253,19 @@ NotInOrder(\var{uid}) := \\ [5pt]
 $
 $
 Q6(uid) := 
-	\Pi_{\var{uid}} User - NotInOrder 
+	(\Pi_{\var{uid}} User) - NotInOrder 
 $\\\\
 }
 
 \item   % ----------
-Return all pairs of users with the same name. Return the two uids and the common name. Return each pair only once. (For example, if user 1 and user 2 are both named 'Pat', then return either [1, 2, 'Pat'] or [2, 1, 'Pat'] but not both). \\ [5pt]
+Return all pairs of users with the same name. Return the two uids and the common name. Return each pair only once. (For example, if user 1 and user 2 are both named 'Pat', then return either [1, 2, 'Pat'] or [2, 1, 'Pat'] but not both). \\\\ [5pt]
 {\large
 \hspace*{1cm} -- Get the uid's and name of each pair of users with the same name. \\ [5pt]
 $
-Q7(uid, uid, name) := \Pi_{\var{U1.uid}, \var{U2.uid}, \var{U1.name}}
+Q7(user1.uid, user2.uid, name) := 
+	\Pi_{\substack{\var{U1.uid}, \\
+					\var{U2.uid}, \\
+					\var{U1.name}}}
 	 (\sigma_{\substack{\var{U1.uid}  <  \var{U2.uid} \\
 	  \wedge \var{U1.name} = \var{U2.name}}} (\rho_{\var{U1}} User \times \rho_{\var{U2}}User)) \\\\ [5pt]
 $
@@ -274,39 +277,39 @@ sent any direct messages to a contact then include the user and contact with the
 \large{
 \hspace*{1cm} -- Get all direct messages \\ [5pt]
 $
-dMessage(mid, from, to, time) := \\ [5pt] 
+DMessage(mid, from, to, time) := \\ [5pt] 
 \hspace*{1cm} \Pi_{mid, from, to, time} (\sigma_{Message.to = User.uid} (Message \times User)) \\\\ [5pt]
 $
-\hspace*{1cm} -- Return uid's of Users that have sent no messages, and append two 0 attributes  \\[5pt]
+\hspace*{1cm} -- Get the uids of Users and Contacts, where a user has sent no messages to their contact, and append two 0 attributes for earliest and latest time.  \\[5pt]
 $
-NoMessages(uid, uid, 0, 0) := (\Pi_{uid, contact} \; Contact)  -  (\Pi_{to, from} \; dMessage) \\\\[5pt]
+NoMessages(from, to, 0, 0) := (\Pi_{uid, contact} \; Contact)  -  (\Pi_{to, from} \; DMessage) \\\\[5pt]
 $
-\hspace*{1cm} --Gather all but the earliest messages \\[5pt]
+\hspace*{1cm} --Gather all but the earliest messages. \\[5pt]
 $
 AllButEarliest(mid, from, to, time) := \\
 \hspace*{1cm} \Pi_{M1.mid, M1.from, M1.time} \: (\sigma_{\substack{M1.time>M2.time  \\
 					\wedge \: M1.from = M2.from \\
-					\wedge \: M1.to = M2.to}} (\rho_{M1} dMessage \times \rho_{M2} dMessage)) \\\\\\
+					\wedge \: M1.to = M2.to}} (\rho_{M1} DMessage \times \rho_{M2} DMessage)) \\\\\\
 $
-\hspace*{1cm} --Get the earliest messages of each user  \\[5pt]
+\hspace*{1cm} --Get the earliest messages of each user.  \\[5pt]
 $
-Earliest(mid, from, to, content, time) := dMessage - AllButEarliest \\\\[5pt]
+Earliest(mid, from, to, time) := DMessage - AllButEarliest \\\\[5pt]
 $
-\hspace*{1cm} --Gather all but the latest direct messages messages  \\[5pt]
+\hspace*{1cm} --Gather all but the latest direct messages.  \\[5pt]
 $
 AllButLatest(mid, from, to, time) := \\ 
 \hspace*{1cm} \Pi_{M1.mid, M1.from, M1.time} (\sigma_{\substack{M1.time < M2.time \\
 					\wedge \: M1.from = M2.from \\
 					\wedge \: M1.to = M2.to}}
-					(\rho_{M1} dMessage \times \rho_{M2} dMessage) \\\\\\
+					(\rho_{M1} DMessage \times \rho_{M2} DMessage) \\\\\\
 $
-\hspace*{1cm} --Get the latest messages for each user  \\[5pt]
+\hspace*{1cm} -- Get the latest messages for each user.  \\[5pt]
 $
-Latest(mid, from, to, time) := dMessage - AllButLatest \\\\ [5pt]
+Latest(mid, from, to, time) := DMessage - AllButLatest \\\\ [5pt]
 $
-\hspace*{1cm} --Combine earliest and latest and return the from uid, to uid, and their times  \\[5pt]
+\hspace*{1cm} --Combine earliest and latest and return the from uid, to uid, and their earliest and latest times.  \\[5pt]
 $
-EarliestLatest(uid, uid, time, time) := \\
+EarliestLatest(user, contact, first, last) := \\
 \hspace*{1cm} \Pi_{E.from, E.to, E.time, L.time} \:
 					 (\sigma_{\substack{E.from = L.from \\
 					 \wedge \: E.to = L.to}} \: (\rho_{E}Earliest \times \rho_{L}Latest)) \\\\ [5pt]
@@ -318,32 +321,32 @@ $
 }
 
 \item   % ----------
-A 'spammer' is a user who posts unwanted direct messages that are not read. A spammer must have sent at least direct message (so this message will appear in the Status relation). Because users may not be aware that someone is a spammer, they may read some of their initial messages. However, once they decide a certain user is a spammer, the receivers stop reading all messages from the spammer. This means that for a user who is sent a direct message from a spammer there are no delivered messages with a time that is earlier than any read message from the spammer. Return the spammer's user id and all their privacy settings (Privacy.lastSeen, Privacy.photo, Privacy.profile). Do not consider groups for this question. Only consider direct messages sent from a user to another single user (not to a group). \\ [5pt]
+A 'spammer' is a user who posts unwanted direct messages that are not read. A spammer must have sent at least direct message (so this message will appear in the Status relation). Because users may not be aware that someone is a spammer, they may read some of their initial messages. However, once they decide a certain user is a spammer, the receivers stop reading all messages from the spammer. This means that for a user who is sent a direct message from a spammer there are no delivered messages with a time that is earlier than any read message from the spammer. Return the spammer's user id and all their privacy settings (Privacy.lastSeen, Privacy.photo, Privacy.profile). Do not consider groups for this question. Only consider direct messages sent from a user to another single user (not to a group). \\\\ [5pt]
 \large{
 \hspace*{1cm} -- Get all direct messages. \\ [5pt]
 $
-dMessage(mid, from, to, content, time) := \\
-\hspace*{1cm} \Pi_{\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}} 
+DMessage(mid, from, to, time) := \\
+\hspace*{1cm} \Pi_{\var{mid}, \var{from}, \var{to}, \var{time}} 
 (\sigma_{\var{Message.to} = \var{User.uid}} (Message \times User)) \\\\ [5pt]
 $
-$dMessage\&Status() := dMessage \bowtie Status \\\\ [5pt]
+$DMsgAndStatus(mid, from, to, time, uid, status) := DMessage \bowtie Status \\\\ [5pt]
 $
 $
 NotSpam(uid) := \\
 \Pi_{D1.from} (\sigma_{\substack{D1.mid != D2.mid \\
-																\wedge D1.from = D2.from \\
+																\wedge D1.from =  D2.from \\
 																\wedge D1.to = D2.to \\
 																\wedge D1.time > D2.time \\
-																\wedge D1.status = "Read \\
-																\wedge D2.status = "Delivered"}}
-																(\rho_{D1} dMessage\&Status \times 
-																\rho_{D2} dMessage\&Status)) \\\\\\
+																\wedge D1.status = "read" \\
+																\wedge D2.status = "delivered"}}
+																(\rho_{D1} DMsgAndStatus \times 
+																\rho_{D2} DMsgAndStatus)) \\\\\\
 $
 $
-Spammer(uid) := \Pi_{\var{uid}} User - NotSpam \\\\ [5pt]
+Spammer(uid) := (\Pi_{\var{uid}} User) - NotSpam \\\\ [5pt]
 $
 $
-Q9(uID, lastSeen, Photo, Profile) := Spammer \bowtie Privacy \\ [5pt]													
+Q9(uid, Privacy.lastSeen, Privacy.photo, Privacy.profile) := Spammer \bowtie Privacy \\ [5pt]													
 $
 }
 
@@ -364,9 +367,9 @@ and then use them in an integrity constraint.
 \begin{enumerate}
 
 \item   % ----------
-The receiver (Message[to]) of a message must be either a user (User[uid]) or a group (Group[gid]). \\ [5pt]
+The receiver (Message[to]) of a message must be either a user (User[uid]) or a group (Group[gid]). \\\\ [5pt]
 \large{
-\hspace*{1cm} -- Comment?\\ [5pt]
+\hspace*{1cm} -- Use union for User[uid] and Group[gid] to satisfy the either condition.\\ [5pt]
 $
 Message[to] - (User[uid] \cup Group[gid]) =  \emptyset \\[5pt]
 $
@@ -387,7 +390,7 @@ DirectMsg(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}) := \\ [5pt
 $
 \hspace*{1cm} -- All the group messages. \\ [5pt]
 $
-GroupMsg := Message - DirectMsg \\\\ [5pt]
+GroupMsg(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}) := Message - DirectMsg \\\\ [5pt]
 $
 \hspace*{1cm} -- A relation of all the combinations of group messages and group where the constraints are followed (i.e. all members of the group are part of the sender's contacts, and the message was sent after the contact start time). \\ [5pt]
 $
@@ -396,14 +399,14 @@ GrpCorrect(\var{mid}, \var{from}, \var{to}, \var{content}, \var{time}, \var{gid}
 							GroupMsg.from, \\
 							GroupMsg.to, \\
 							GroupMsg.content, \\
-							GroupMsg.time,
+							GroupMsg.time, \\
 							Group.gid, \\
 							Group.uid}}
-			\sigma_{\substack{GroupMsg.from = Contact.user \\
+			(\sigma_{\substack{GroupMsg.from = Contact.user \\
 					\wedge GroupMsg.to = Group.gid \\
 					\wedge Group.uid = Contact.contact \\
 					\wedge GroupMsg.time > Contact.start}}
-			(GroupMsg \times Group \times Contact) \\\\\\ [5pt]
+			(GroupMsg \times Group \times Contact)) \\\\\\ [5pt]
 $
 \hspace*{1cm} -- Get all the instances that violate the group constraint. \\ [5pt]
 $
@@ -433,8 +436,8 @@ DirViolators = \emptyset \; \wedge \; GrpViolators = \emptyset \\
 $
 }
 \item %----------
-The total size of all attachments in a message must be less than 128MB. \\[5pt]
-\hspace*{1cm} -- Cannot be expressed
+The total size of all attachments in a message must be less than 128MB. \\\\[5pt]
+Cannot be expressed. \\
 
  
 \item
@@ -447,12 +450,14 @@ MsgWithStatus(\var{mid}, \var{uid}, \var{status}, \var{from}, \var{to}, \var{con
 $ 
 \hspace*{1cm} -- Get the group messages from MsgWithStatus. \\ [5pt]
 $
-GrpMsgWithStatus :=
-	\sigma_{MsgWithStatus.uid != MsgWithStatus.to} \; MsgWithStatus \\\\ [5pt]
+GrpMsgWithStatus(\var{mid}, \var{uid}, \var{status}, \var{from}, \var{to}, \var{content}, \var{time}) := \\ [5pt]
+\hspace*{1cm}
+	\sigma_{MsgWithStatus.uid \; != \; MsgWithStatus.to} \; MsgWithStatus \\\\ [5pt]
 $
 \hspace*{1cm} -- Get the direct messages from MsgWithStatus. \\ [5pt]
 $
-DirMsgWithStatus :=
+DirMsgWithStatus(\var{mid}, \var{uid}, \var{status}, \var{from}, \var{to}, \var{content}, \var{time}) := \\ [5pt]
+\hspace*{1cm}
 	MsgWithStatus - GroupMsgWithStatus \\\\ [5pt]
 $
 \hspace*{1cm} -- All the instances where a messsage was sent to a group, and a user in that \hspace*{1cm}group has a tuple in status \\ [5pt]
@@ -465,9 +470,9 @@ GroupStatus(\var{mid}, \var{uid}, \var{status}) := \\ [5pt]
 $
 \hspace*{1cm} -- All instances that should make up Status. \\ [5pt]
 $
-ShouldBeStatus :=
+ShouldBeStatus(\var{mid}, \var{uid}, \var{status}) :=
 	GroupStatus \cup
-	\Pi_{\var{mid}, \var{uid}, \var{status}} DirMsgWithStatus \\\\ [5pt]
+	(\Pi_{\var{mid}, \var{uid}, \var{status}} DirMsgWithStatus) \\\\ [5pt]
 $
 \hspace*{1cm} -- The integrity constraint. \\ [5pt]
 $
