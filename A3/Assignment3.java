@@ -3,8 +3,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Assignment3 extends JDBCSubmission {
-	// add conn field.
-	Connection conn;
+	
     public Assignment3() throws ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
     }
@@ -13,15 +12,15 @@ public class Assignment3 extends JDBCSubmission {
     public boolean connectDB(String url, String username, String password) {
 	    //write your code here.
     	try {
-    		conn = DriverManager.getConnection(url, username, password);
-    		if (conn != null) {
+    		connection = DriverManager.getConnection(url, username, password);
+    		if (connection != null) {
     			return true;
-    		}
+    		} 
         // Do we need to catch a specific exception?
         // Return false in catch? Yells at you if no false outside of try
     	} catch (SQLException e) {
     		e.printStackTrace();
-    		
+    		//return false;
     	}
     	return false;
     }
@@ -30,8 +29,8 @@ public class Assignment3 extends JDBCSubmission {
     public boolean disconnectDB() {
 	    //write your code here.
             try {
-				conn.close();
-				if (conn.isClosed()) {
+				connection.close();
+				if (connection.isClosed()) {
 					return true;
 				}
 				return false;
