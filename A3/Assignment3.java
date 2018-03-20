@@ -43,14 +43,46 @@ public class Assignment3 extends JDBCSubmission {
 
     @Override
     public ElectionResult presidentSequence(String countryName) {
-            //Write your code here.
-            return null;
+            List<Integer> presidentIds = new ArrayList();
+            List<String> partyNames = new ArrayList();
+            PreparedStatement presidentStat = connection.prepareStatement(
+                "SELECT politician_president.id, party.name 
+                from politician_president join party 
+                on politician_president.party_id = party.id join country
+                on country.id = politician_president.country_id 
+                where country.name =" + "\'" + countryName + "\'" 
+                "order by politician_president.start_date desc;");
+            ResultSet presidents = presidentStat.executeQuery();
+            while (presidents.next()) {
+                int currentPresident = presidents.getInt(1);
+                String currentParty = presidents.getString(2);
+                presidentIds.add(currentPresident);
+                partyNames.add(currentParty);
+            }
+            return new ElectionResult(presidents, partyNames);
 	}
 
     @Override
     public List<Integer> findSimilarParties(Integer partyId, Float threshold) {
 	//Write your code here.
-        return null;
+        List<Integer> similarParties = new ArrayList();
+        PreparedStatement getParties = connection.prepareStatement(
+            "SELECT id, description from party;");
+        PreparedStatement comparedParty = connection.prepareStatement(
+            "Select id, description from party where id=" + "\'" 
+            + String.format(partyId)) + "\';");
+        ResultSet allParties = getParties.executeQuery();
+        ResultSet singleParty = comparedParty.executeQuery();
+        String comparedDescription = singleParty.getString(2);
+        while (allParties.next()) {
+            String currentDescription = allParties.getString(2);
+            int currentParty = allParties.getInt(1);
+            if (similarity(currentDescription, comparedDescription) > threshold) {
+                similarParties.add(currentParty);
+            }
+
+        }
+        return similarParties;
     }
 
     public static void main(String[] args) throws Exception {
