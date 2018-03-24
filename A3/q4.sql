@@ -10,7 +10,7 @@ create view less_than30 as
   where age < 30;
 
 create view less_thirty_res as
-  select less_than30.email, reservation.id, reservation.old_res_id, reservation.from_date, 
+  select less_than30.email, reservation.id, reservation.old_res_id, reservation.from_date,
   reservation.status
   from less_than30 join customer_res on less_than30.email = customer_res.email
   join reservation on reservation.id = customer_res.res_num;
@@ -18,7 +18,7 @@ create view less_thirty_res as
 create view all_changers as
   select c1.*
   from less_thirty_res c1, less_thirty_res c2
-  where c1.eamil = c2.email and c2.id = c1.old_res_id;
+  where c1.email = c2.email and c2.id = c1.old_res_id;
 
 create view changes_with_month as
   select all_changers.*, cast(extract(month from(age(from_date))) as int) as month_diff
