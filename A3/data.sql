@@ -1,21 +1,21 @@
 
 
-insert into Customer(id, age, email)
-  values (1, 'Sofia Jan', 24, 'j.s@mail.com'),
-  (2, 'Atena Najm', 39, 'a.n@mail.com'),
-  (3, 'Yu Chang', 42, 'y.c@mail.com'),
-  (4, 'Ryan King', 52, 'r.k@mail.com'),
-  (5, 'Thomas George', 34, 't.g@mail.com'),
-  (6, 'Marie Smith', 22, 'm.s@mail.com'),
-  (7, 'Jonah Swartz', 28, 'jj.swtz@mail.com'),
-  (8, 'Terry Su', 31, 't.s@mail.com'),
-  (9, 'David Chen', 45, 'dchen@mail.com'),
-  (10, 'Cynthia Nguyen', 27, 'cngu@mail.com'),
-  (11, 'Malik Abdullah', 27, 'malik_aa@mail.com'),
-  (12, 'John Parkinson', 33, 'jparki@mail.com'),
-  (13, 'Stan Orlowski', 26, 'orlows@mail.com'),
-  (14, 'Sanja Hilbert', 23, 's.hilbert@mail.com'),
-  (15, 'Ian Hsu', 41, 'shenian@mail.com');
+insert into Customer(name, age, email)
+  values ('Sofia Jan', 24, 'j.s@mail.com'),
+  ('Atena Najm', 39, 'a.n@mail.com'),
+  ('Yu Chang', 42, 'y.c@mail.com'),
+  ('Ryan King', 52, 'r.k@mail.com'),
+  ('Thomas George', 34, 't.g@mail.com'),
+  ('Marie Smith', 22, 'm.s@mail.com'),
+  ('Jonah Swartz', 28, 'jj.swtz@mail.com'),
+  ('Terry Su', 31, 't.s@mail.com'),
+  ('David Chen', 45, 'dchen@mail.com'),
+  ('Cynthia Nguyen', 27, 'cngu@mail.com'),
+  ('Malik Abdullah', 27, 'malik_aa@mail.com'),
+  ('John Parkinson', 33, 'jparki@mail.com'),
+  ('Stan Orlowski', 26, 'orlows@mail.com'),
+  ('Sanja Hilbert', 23, 's.hilbert@mail.com'),
+  ('Ian Hsu', 41, 'shenian@mail.com');
 
 insert into Model(id, name, v_type, model_num, capacity)
   values (1, 'BMW X5', 'SUV', 415, 5),
@@ -29,12 +29,12 @@ insert into Model(id, name, v_type, model_num, capacity)
 
 insert into Rentalstation(code, name, address, area_code, city)
   values(1001, 'SuperCar College', '333 College St', 'M5T1P7', 'Toronto'),
-        (1002, 'SuperCar Billy Bishop Airport', '200 Spadina Ave', 'M5V1A1, Toronto'),
+        (1002, 'SuperCar Billy Bishop Airport', '200 Spadina Ave', 'M5V1A1', 'Toronto'),
         (1003, 'SuperCar York', '220 Eglinton St', 'M6E2G8', 'Toronto'),
         (1004, 'SuperCar East Toronto', '200 Richmond St E', 'M5A2P2', 'Toronto'),
-        (1005, 'SuperCar Parliament', '200 Wellington St', 'K1A0G9' 'Toronto' ),
+        (1005, 'SuperCar Parliament', '200 Wellington St', 'K1A0G9', 'Toronto'),
         (1006, 'SuperCar Ottawa Airport', '216 Airport Rd', 'K1V9B4', 'Ottawa'),
-        (1007, 'SuperCar Central Station', '895 Rue Mansfield' 'H3B4G1', 'Montreal'),
+        (1007, 'SuperCar Central Station', '895 Rue Mansfield', 'H3B4G1', 'Montreal'),
         (1008, 'SuperCar North Montreal', '2351 Rue Masson', 'H1Y1V8', 'Montreal'),
         (1009, 'SuperCar West Montreal', '7000 Avenue Van Horne', 'H3S2B2', 'Montreal');
 

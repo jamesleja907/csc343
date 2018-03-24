@@ -19,10 +19,10 @@ create type Res_status as ENUM(
 );
 
 Create Table Customer(
-  id INT Primary Key,
+  name varchar(50) not null,
   age INT not null
   check (age >= 18),
-  email varchar(50) not null unique
+  email varchar(50) primary key
 );
 
 create Table Model(
