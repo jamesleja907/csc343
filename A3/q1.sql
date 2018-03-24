@@ -38,11 +38,15 @@ create view cancel_ratio as
 create view all_cancel_ratio as 
   select customer.email, 
   case when(select count(*) from cancel_ratio where cancel_ratio.email = customer.email) = 0 
-  then 0 else cancel_ratio.ratio end as ratio, row_number() over(order by ratio desc) as rank
+  then 0 else cancel_ratio.ratio end as ratio
   from customer natural full join cancel_ratio;
 
+create view cancel_with_rank as select email, ratio, 
+  row_number() over(order by ratio desc) as rank
+  from all_cancel_ratio;
+
 create view result as select email, ratio 
-  from all_cancel_ratio where rank = 1 or rank = 2
+  from cancel_with_rank where rank = 1 or rank = 2
   order by ratio desc, email;
 
 -- Currently just taking #1 and #2 with row_number
