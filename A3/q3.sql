@@ -6,7 +6,7 @@ create table q3(name VARCHAR(50));
 
 --Get all car ids rented in Toronto in 2017
 create view TO_seventeen as
-  select reservation.id as res_id, reservation.car_id, car.model_id,
+  select reservation.id as res_id, reservation.car_id, car.model_id
   from Reservation join Car on reservation.car_id = car.id
   join Rentalstation on car.station_code = Rentalstation.code
   where Rentalstation.city = 'Toronto' and extract(year from from_date) = 2017
