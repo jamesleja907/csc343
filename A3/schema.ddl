@@ -25,7 +25,7 @@ Create Table Reservation(
   car_id INT References car(id) NOT Null,
   old_res_id INT default null,
   status res_status NOT NUll
-)
+);
 
 Create Table Car(
   id INT primary key,
@@ -58,6 +58,6 @@ create Table Rentalstation(
 );
 
 create table Customer_res(
-  email varchar References customer(email),
-  res_num INT References reservation(id)
+  email varchar References Customer(email),
+  res_num INT References Reservation(id)
 );
