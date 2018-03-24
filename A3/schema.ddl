@@ -44,7 +44,7 @@ create Table Rentalstation(
 Create Table Car(
   id INT primary key,
   license_num varchar(20) unique,
-  station_code INT References Rentalstation(id),
+  station_code INT References Rentalstation(code),
   model_id INT References Model(id)
 );
 
