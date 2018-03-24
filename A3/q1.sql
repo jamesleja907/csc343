@@ -35,36 +35,43 @@ create view cancel_ratio as
   from cancelled natural full join completed
   order by ratio desc;
 
-create view all_cancel_rato as 
+create view all_cancel_ratio as 
   select customer.email, 
   case when(select count(*) from cancel_ratio where cancel_ratio.email = customer.email) = 0 
-  then 0 else cancel_ratio.ratio end as ratio from customer natural full join cancel_ratio;
+  then 0 else cancel_ratio.ratio end as ratio, row_number() over(order by ratio desc) as rank
+  from customer natural full join cancel_ratio;
 
-create view max_ratio as
-  select email, ratio
-  from all_cancel_ratio r1
-  where not exists(
-    select *
-    from all_cancel_ratio r2
-    where r2.ratio > r1.ratio
-  );
+create view result as select email, ratio 
+  from all_cancel_ratio where rank = 1 or rank = 2
+  order by ratio desc, email;
 
-create view left_overs as
-  select *
-  from (cancel_ratio) except (max_ratio)
+-- Currently just taking #1 and #2 with row_number
 
-create view number_two as
-  select email, ratio
-  from left_overs
-  where not exists(
-    select *
-    from left_overs l1
-    where l1.ratio > ratio
-  );
+-- create view max_ratio as
+--   select email, ratio
+--   from all_cancel_ratio r1
+--   where not exists(
+--     select *
+--     from all_cancel_ratio r2
+--     where r2.ratio > r1.ratio
+--   );
 
-  create view result as
-    select *
-    from (max_ratio) union (number_two)
-    order by ratio desc, email;
+-- create view left_overs as
+--   select *
+--   from (cancel_ratio) except (max_ratio)
+
+-- create view number_two as
+--   select email, ratio
+--   from left_overs
+--   where not exists(
+--     select *
+--     from left_overs l1
+--     where l1.ratio > ratio
+--   );
+
+  -- create view result as
+  --   select *
+  --   from (max_ratio) union (number_two)
+  --   order by ratio desc, email;
 
   insert into q1 select * from result;
