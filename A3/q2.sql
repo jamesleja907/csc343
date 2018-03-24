@@ -25,7 +25,7 @@ create view multiple_rank as select email, count, row_number() over(order by cou
 
 create view result2 as select email, count as num_shared_reservations 
   from multiple_rank where rank = 1 or rank = 2 
-  order by num_shared_reservations desc, email
+  order by num_shared_reservations desc, email;
 
 -- create view top as
 --   select *
