@@ -15,7 +15,8 @@ insert into Customer(name, age, email)
   ('John Parkinson', 33, 'jparki@mail.com'),
   ('Stan Orlowski', 26, 'orlows@mail.com'),
   ('Sanja Hilbert', 23, 's.hilbert@mail.com'),
-  ('Ian Hsu', 41, 'shenian@mail.com');
+  ('Ian Hsu', 41, 'shenian@mail.com'),
+  ('Han Solo', 34, 'han@mail.com');
 
 insert into Model(id, name, v_type, model_num, capacity)
   values (1, 'BMW X5', 'SUV', 415, 5),
@@ -53,7 +54,7 @@ insert into Car(id, license_num, station_code, model_id)
   (112, 'tore102', 1004, 7),
   (113, 'ottp111', 1005, 2),
   (114, 'ottp112', 1005, 7),
-  (115, 'ottp113', 1005, 8), 
+  (115, 'ottp113', 1005, 8),
   (116, 'otta101', 1006, 1),
   (117, 'otta102', 1006, 7),
   (118, 'otta103', 1006, 6),
@@ -110,7 +111,7 @@ insert into Reservation(id, from_date, to_date, car_id, old_res_id, status)
           (22037, '2017-09-25 09:00:00', '2017-09-27 20:00:00', 103, Null, 'Cancelled'),
           (22038, '2017-09-25 09:00:00', '2017-09-27 20:00:00', 104, 22037, 'Completed');
 
-        
+
 insert into Customer_res(email, res_num)
   values ('j.s@mail.com', 22001),
   ('terry.su@mail.com', 22001),
@@ -158,7 +159,3 @@ insert into Customer_res(email, res_num)
   ('cyngu@mail.com', 22036),
   ('s.hilbert@mail.com', 22037),
   ('s.hilbert@mail.com', 22038);
-
-
-
-
