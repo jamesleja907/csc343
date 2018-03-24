@@ -20,7 +20,7 @@ create view multiple_res as (select * from complete_res) except (select * from s
 
 create view multiple_count as select email, count(*) from multiple_res group by email;
 
-create view multiple_rank as select email, count, row_number() over(order by count desc, email) as multiple_rank
+create view multiple_rank as select email, count, row_number() over(order by count desc, email) as rank
   from multiple_count;
 
 create view result2 as select email, count as num_shared_reservations 
