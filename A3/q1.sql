@@ -30,7 +30,7 @@ create view cancelled as select c2.email, count(*) as cancelled_res
 
 create view cancel_ratio as
   select  email, case when (completed_res is null) then cancelled_res
-  when (cancelled_res is null) then completed_res
+  when (cancelled_res is null) then 0
   else cast(cancelled_res as float)/cast(completed_res as float) end as ratio
   from cancelled natural full join completed
   order by ratio desc;
