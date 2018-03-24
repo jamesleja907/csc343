@@ -27,6 +27,16 @@ insert into Model(id, name, v_type, model_num, capacity)
   (7, 'Volvo V231', 'Economy', 1737, 4),
   (8, 'Kia T21', 'Economy', 1221, 4);
 
+insert into Rentalstation(code, name, address, area_code, city)
+  values(1001, 'SuperCar College', '333 College St', 'M5T1P7', 'Toronto'),
+        (1002, 'SuperCar Billy Bishop Airport', '200 Spadina Ave', 'M5V1A1, Toronto'),
+        (1003, 'SuperCar York', '220 Eglinton St', 'M6E2G8', 'Toronto'),
+        (1004, 'SuperCar East Toronto', '200 Richmond St E', 'M5A2P2', 'Toronto'),
+        (1005, 'SuperCar Parliament', '200 Wellington St', 'K1A0G9' 'Toronto' ),
+        (1006, 'SuperCar Ottawa Airport', '216 Airport Rd', 'K1V9B4', 'Ottawa'),
+        (1007, 'SuperCar Central Station', '895 Rue Mansfield' 'H3B4G1', 'Montreal'),
+        (1008, 'SuperCar North Montreal', '2351 Rue Masson', 'H1Y1V8', 'Montreal'),
+        (1009, 'SuperCar West Montreal', '7000 Avenue Van Horne', 'H3S2B2', 'Montreal');
 
 insert into Car(id, license_num, station_code, model_id)
   values (101, 'torc566', 1001, 1),
@@ -58,17 +68,8 @@ insert into Car(id, license_num, station_code, model_id)
   (127, 'mowe503', 1009, 7),
   (128, 'mowe504', 1009, 1);
 
-insert into Rentalstation(code, name, address, area_code, city)
-  values(1001, 'SuperCar College', '333 College St', 'M5T1P7', 'Toronto'),
-        (1002, 'SuperCar Billy Bishop Airport', '200 Spadina Ave', 'M5V1A1, Toronto'),
-        (1003, 'SuperCar York', '220 Eglinton St', 'M6E2G8', 'Toronto'),
-        (1004, 'SuperCar East Toronto', '200 Richmond St E', 'M5A2P2', 'Toronto'),
-        (1005, 'SuperCar Parliament', '200 Wellington St', 'K1A0G9' 'Toronto' ),
-        (1006, 'SuperCar Ottawa Airport', '216 Airport Rd', 'K1V9B4', 'Ottawa'),
-        (1007, 'SuperCar Central Station', '895 Rue Mansfield' 'H3B4G1', 'Montreal'),
-        (1008, 'SuperCar North Montreal', '2351 Rue Masson', 'H1Y1V8', 'Montreal'),
-        (1009, 'SuperCar West Montreal', '7000 Avenue Van Horne', 'H3S2B2', 'Montreal');
-        
+
+
 insert into Reservation(id, from_date, to_date, car_id, old_res_id, status)
     values(22001, 2017-09-01 09:00:00, 2017-09-03 17:00:00, 101, Null, 'Completed'),
           (22002, 2018-03-17 16:00:00, 2018-03-25 16:00:00, 101, Null, 'Cancelled'),
