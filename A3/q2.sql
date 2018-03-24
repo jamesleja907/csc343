@@ -7,9 +7,9 @@ create table q2(
 
 
 create view complete_res as
-  select res_id, email, res_status
+  select res_id, email, status
   from Reservation join Cust_res on reservation.id = cust_res.res_num
-  where res_status = 'Completed';
+  where status = 'Completed';
 
 create view multiple_res as
   select c1.email, count(*)
