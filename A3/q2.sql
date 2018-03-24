@@ -1,5 +1,5 @@
 set search_path to carschema;
-drop table if exists q1 cascade;
+drop table if exists q2 cascade;
 
 create table q2(
   email VARCHAR(50),
