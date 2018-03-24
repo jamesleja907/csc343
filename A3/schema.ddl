@@ -24,7 +24,7 @@ Create Table Reservation(
   To_date Timestamp NOT Null,
   car_id INT References car(id) NOT Null,
   old_res_id INT default null,
-  status res_status NOT NUll,
+  status res_status NOT NUll
 )
 
 Create Table Car(
@@ -46,7 +46,7 @@ Create Table Customer(
   id INT Primary Key not null,
   age INT not null
   check (age >= 18),
-  email varchar(50) not null unique,
+  email varchar(50) not null unique
 );
 
 create Table Rentalstation(
@@ -59,5 +59,5 @@ create Table Rentalstation(
 
 create table Customer_res(
   email varchar References customer(email),
-  res_num INT References reservation(id),
+  res_num INT References reservation(id)
 );
