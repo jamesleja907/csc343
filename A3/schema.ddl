@@ -18,20 +18,20 @@ create type Res_status as ENUM(
   'Ongoing, Completed, Cancelled'
 );
 
-Create Table Reservation(
-  id INT primary key,
-  From_date Timestamp NOT Null,
-  To_date Timestamp NOT Null,
-  car_id INT References car(id) NOT Null,
-  old_res_id INT default null,
-  status res_status NOT NUll
-);
-
 Create Table Car(
   id INT primary key,
   license_num varchar(20) unique,
   station_code INT unique,
-  model_id INT References model(id)
+  model_id INT References Model(id)
+);
+
+Create Table Reservation(
+  id INT primary key,
+  From_date Timestamp NOT Null,
+  To_date Timestamp NOT Null,
+  car_id INT References Car(id) NOT Null,
+  old_res_id INT default null,
+  status res_status NOT NUll
 );
 
 create Table Model(
