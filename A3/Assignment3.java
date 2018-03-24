@@ -45,8 +45,8 @@ public class Assignment3 extends JDBCSubmission {
     public ElectionResult presidentSequence(String countryName) {
         ElectionResult result = null;
         try {
-            List<Integer> presidentIds = new ArrayList();
-            List<String> partyNames = new ArrayList();
+            List<Integer> presidentIds = new ArrayList<Integer>();
+            List<String> partyNames = new ArrayList<String>();
             PreparedStatement presidentStat = connection.prepareStatement(
                 "SELECT politician_president.id, party.name " +
                 "from politician_president join party " + 
@@ -72,7 +72,7 @@ public class Assignment3 extends JDBCSubmission {
     public List<Integer> findSimilarParties(Integer partyId, Float threshold) {
 	//Write your code here.
         // This method currently fails, not sure if its because of the helper though.
-        List<Integer> similarParties = new ArrayList();
+        List<Integer> similarParties = new ArrayList<Integer>();
         int tempId = partyId;
         // Double doubleThreshold = (Double) threshold;
         // Double doubleThreshold = new FloatingDecimal(threshold.floatValue()).doubleValue();
@@ -104,14 +104,17 @@ public class Assignment3 extends JDBCSubmission {
    	    //Write code here. 
     	// Didn't they say no print statements?
 	    // System.out.println("Hellow World");
-	    // Assignment3 a3 = new Assignment3();
-	    // String url = "dbc:postgresql://localhost:5432/csc343h-lejajame";
-	    // String username = "lejajame";
-	    // boolean connected = a3.connectDB(url, username, "");
-	    // if (connected) {
-	    // 	System.out.println("Connected hooray");
-	    // }
-	    // boolean disconnected = a3.disconnectDB();
+	    Assignment3 a3 = new Assignment3();
+	    String url = "dbc:postgresql://localhost:5432/csc343h-lejajame";
+	    String username = "lejajame";
+        Float f = 0.3f;
+	    boolean connected = a3.connectDB(url, username, "");
+	    if (connected) {
+	    	System.out.println("Connected hooray");
+            List<Integer> result = a3.findSimilarParties(401, f);
+            System.out.println(result.toString());
+	    }
+	    boolean disconnected = a3.disconnectDB();
     }
 
 }
