@@ -59,4 +59,4 @@ create view result2 as select email, count as num_shared_reservations
 --    complete_res.email else top_two.email end as email
 --    from complete_res, multiple_res;
 
-insert into q2 select * from result;
+insert into q2 select * from result2;

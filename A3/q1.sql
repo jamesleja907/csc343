@@ -78,4 +78,4 @@ create view result1 as select email, ratio
   --   from (max_ratio) union (number_two)
   --   order by ratio desc, email;
 
-  insert into q1 select * from result;
+  insert into q1 select * from result1;
