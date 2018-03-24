@@ -43,14 +43,16 @@ public class Assignment3 extends JDBCSubmission {
 
     @Override
     public ElectionResult presidentSequence(String countryName) {
+        ElectionResult result = null;
+        try {
             List<Integer> presidentIds = new ArrayList();
             List<String> partyNames = new ArrayList();
             PreparedStatement presidentStat = connection.prepareStatement(
-                "SELECT politician_president.id, party.name 
-                from politician_president join party 
-                on politician_president.party_id = party.id join country
-                on country.id = politician_president.country_id 
-                where country.name =" + "\'" + countryName + "\'" 
+                "SELECT politician_president.id, party.name " +
+                "from politician_president join party " + 
+                "on politician_president.party_id = party.id join country " +
+                "on country.id = politician_president.country_id " +
+                "where country.name = " + "\'" + countryName + "\' " +
                 "order by politician_president.start_date desc;");
             ResultSet presidents = presidentStat.executeQuery();
             while (presidents.next()) {
@@ -59,28 +61,41 @@ public class Assignment3 extends JDBCSubmission {
                 presidentIds.add(currentPresident);
                 partyNames.add(currentParty);
             }
-            return new ElectionResult(presidents, partyNames);
+            result = new ElectionResult(presidentIds, partyNames);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;    
 	}
 
     @Override
     public List<Integer> findSimilarParties(Integer partyId, Float threshold) {
 	//Write your code here.
+        // This method currently fails, not sure if its because of the helper though.
         List<Integer> similarParties = new ArrayList();
-        PreparedStatement getParties = connection.prepareStatement(
-            "SELECT id, description from party;");
-        PreparedStatement comparedParty = connection.prepareStatement(
-            "Select id, description from party where id=" + "\'" 
-            + String.format(partyId)) + "\';");
-        ResultSet allParties = getParties.executeQuery();
-        ResultSet singleParty = comparedParty.executeQuery();
-        String comparedDescription = singleParty.getString(2);
-        while (allParties.next()) {
-            String currentDescription = allParties.getString(2);
-            int currentParty = allParties.getInt(1);
-            if (similarity(currentDescription, comparedDescription) > threshold) {
-                similarParties.add(currentParty);
-            }
+        int tempId = partyId;
+        // Double doubleThreshold = (Double) threshold;
+        // Double doubleThreshold = new FloatingDecimal(threshold.floatValue()).doubleValue();
+        try {
+            PreparedStatement getParties = connection.prepareStatement(
+                "SELECT id, description from party;");
+            PreparedStatement comparedParty = connection.prepareStatement(
+                "Select id, description from party where id = ?");
+                //+ Integer.toString(partyId) + " ;");
+            comparedParty.setInt(1, tempId);
+            ResultSet allParties = getParties.executeQuery();
+            ResultSet singleParty = comparedParty.executeQuery();
+            String comparedDescription = singleParty.getString(2);
+            while (allParties.next()) {
+                String currentDescription = allParties.getString(2);
+                int currentParty = allParties.getInt(1);
+                if (similarity(currentDescription, comparedDescription) >= threshold) {
+                    similarParties.add(currentParty);
+                }
 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return similarParties;
     }
@@ -88,15 +103,15 @@ public class Assignment3 extends JDBCSubmission {
     public static void main(String[] args) throws Exception {
    	    //Write code here. 
     	// Didn't they say no print statements?
-	    System.out.println("Hellow World");
-	    Assignment3 a3 = new Assignment3();
-	    String url = "dbc:postgresql://localhost:5432/csc343h-lejajame";
-	    String username = "lejajame";
-	    boolean connected = a3.connectDB(url, username, "");
-	    if (connected) {
-	    	System.out.println("Connected hooray");
-	    }
-	    boolean disconnected = a3.disconnectDB();
+	    // System.out.println("Hellow World");
+	    // Assignment3 a3 = new Assignment3();
+	    // String url = "dbc:postgresql://localhost:5432/csc343h-lejajame";
+	    // String username = "lejajame";
+	    // boolean connected = a3.connectDB(url, username, "");
+	    // if (connected) {
+	    // 	System.out.println("Connected hooray");
+	    // }
+	    // boolean disconnected = a3.disconnectDB();
     }
 
 }
