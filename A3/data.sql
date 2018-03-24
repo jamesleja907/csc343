@@ -1,6 +1,6 @@
 
 
-insert into Customer(id, name, age, email)
+insert into Customer(id, age, email)
   values (1, 'Sofia Jan', 24, 'j.s@mail.com'),
   (2, 'Atena Najm', 39, 'a.n@mail.com'),
   (3, 'Yu Chang', 42, 'y.c@mail.com'),
