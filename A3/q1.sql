@@ -8,40 +8,45 @@ create table q1(
 );
 
 --Get table of customer reservations
-create view cust_res as select customer.id as customer_id, email, reservation.id as res_id,
-   res_status, old_res_id
+create view cust_res as select customer.email, reservation.id as res_id,
+   status, old_res_id
   from customer join customer_res on customer.email = customer_res.email
-  join reservation on customer_res = reservation.id;
+  join reservation on customer_res.res_num = reservation.id;
 
 --Get table of customers that have Completed reservations
-create view completed as select customer_id, email, count(*) as completed_res
+create view completed as select email, count(*) as completed_res
   from cust_res
-  where res_status = 'Completed'
-  group by customer_id;
+  where status != 'Cancelled'
+  group by email;
 
-create view cancelled as select customer_id, email, count(*) as cancelled_res
-  from cust_res
+create view cancelled as select c2.email, count(*) as cancelled_res
+  from cust_res c2
   -- need to not count changed reservations
-  where res_status = 'Cancelled' and  not exists(
+  where status = 'Cancelled' and  not exists(
     select *
     from cust_res c1
-    where c1.old_res_id = res_id)
-  group by customer_id;
+    where c1.old_res_id = c2.res_id)
+  group by c2.email;
 
 create view cancel_ratio as
-  select  customer_id, email, case when (completed_res is null) then cancelled_res
+  select  email, case when (completed_res is null) then cancelled_res
   when (cancelled_res is null) then completed_res
-  else cast(cancelled as float)/cast(completed as float) end as ratio
+  else cast(cancelled_res as float)/cast(completed_res as float) end as ratio
   from cancelled natural full join completed
   order by ratio desc;
 
+create view all_cancel_rato as 
+  select customer.email, 
+  case when(select count(*) from cancel_ratio where cancel_ratio.email = customer.email) = 0 
+  then 0 else cancel_ratio.ratio end as ratio from customer natural full join cancel_ratio;
+
 create view max_ratio as
-  select customer_id, email, ratio
-  from cancel_ratio
+  select email, ratio
+  from all_cancel_ratio r1
   where not exists(
     select *
-    from ratio r1
-    where r1.ratio > ratio
+    from all_cancel_ratio r2
+    where r2.ratio > r1.ratio
   );
 
 create view left_overs as
@@ -49,7 +54,7 @@ create view left_overs as
   from (cancel_ratio) except (max_ratio)
 
 create view number_two as
-  select customer_id, emial, ratio
+  select email, ratio
   from left_overs
   where not exists(
     select *
