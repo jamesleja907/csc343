@@ -45,7 +45,7 @@ create view cancel_with_rank as select email, ratio,
   row_number() over(order by ratio desc) as rank
   from all_cancel_ratio;
 
-create view result as select email, ratio 
+create view result1 as select email, ratio 
   from cancel_with_rank where rank = 1 or rank = 2
   order by ratio desc, email;
 
