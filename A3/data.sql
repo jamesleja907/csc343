@@ -6,7 +6,7 @@ insert into Customer(name, age, email)
   ('Yu Chang', 42, 'y.c@mail.com'),
   ('Ryan King', 52, 'r.k@mail.com'),
   ('Thomas George', 34, 't.g@gmail.com'),
-  ('Marie Smith', 22, 'm.s@mail.com'),
+  ('Marie Smith', 22, 'ma.smith@mail.com'),
   ('Jonah Swartz', 28, 'jj.swtz@mail.com'),
   ('Terry Su', 31, 'terry.su@mail.com'),
   ('David Chen', 45, 'dchen@mail.com'),
