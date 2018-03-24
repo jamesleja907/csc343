@@ -15,7 +15,7 @@ create schema carschema;
 set search_path to carschema;
 
 create type Res_status as ENUM(
-  'Ongoing', 'Completed', 'Cancelled'
+  'Ongoing', 'Completed', 'Cancelled', 'Confirmed'
 );
 
 Create Table Customer(
