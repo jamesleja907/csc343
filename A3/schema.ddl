@@ -22,7 +22,7 @@ Create Table Reservation(
   id INT primary key,
   From_date Timestamp NOT Null,
   To_date Timestamp NOT Null,
-  car_id INT References car(id)n NOT Null,
+  car_id INT References car(id) NOT Null,
   old_res_id INT default null,
   status res_status NOT NUll,
 )
