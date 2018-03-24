@@ -1,7 +1,7 @@
 set search_path to carschema;
 drop table if exists q4 cascade;
 
-create table q3(customer_email VARCHAR(50));
+create table q4(customer_email VARCHAR(50));
 
 
 create view less_than30 as
@@ -39,4 +39,4 @@ create view result4 as
   from customer_changes
   where num_changes >= 2;
 
-insert into q3 select * from result4;
+insert into q4 select * from result4;
