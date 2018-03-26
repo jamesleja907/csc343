@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Assignment3 extends JDBCSubmission {
-	
+
     public Assignment3() throws ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
     }
@@ -15,7 +15,7 @@ public class Assignment3 extends JDBCSubmission {
     		connection = DriverManager.getConnection(url, username, password);
     		if (connection != null) {
     			return true;
-    		} 
+    		}
         // Do we need to catch a specific exception?
         // Return false in catch? Yells at you if no false outside of try
     	} catch (SQLException e) {
@@ -49,7 +49,7 @@ public class Assignment3 extends JDBCSubmission {
             List<String> partyNames = new ArrayList<String>();
             PreparedStatement presidentStat = connection.prepareStatement(
                 "SELECT politician_president.id, party.name " +
-                "from politician_president join party " + 
+                "from politician_president join party " +
                 "on politician_president.party_id = party.id join country " +
                 "on country.id = politician_president.country_id " +
                 "where country.name = " + "\'" + countryName + "\' " +
@@ -65,7 +65,7 @@ public class Assignment3 extends JDBCSubmission {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result;    
+        return result;
 	}
 
     @Override
@@ -82,14 +82,18 @@ public class Assignment3 extends JDBCSubmission {
         // Double doubleThreshold = new FloatingDecimal(threshold.floatValue()).doubleValue();
         try {
             PreparedStatement getParties = connection.prepareStatement(
-                "SELECT id, description from party;");
+                "SELECT id, description from party where id != " + Integer.toString(partyId) + ";");
+								//added where the party id is not the passed in partyID
             PreparedStatement comparedParty = connection.prepareStatement(
-                "SELECT id, description from party where id = ?;");
+                "SELECT id, description from party where id =  " + Integer.toString(partyId) + ";");
                 //+ Integer.toString(partyId) + " ;");
-            comparedParty.setInt(1, partyId.intValue());
+
+            //comparedParty.setInt(1, partyId.intValue());
             ResultSet singleParty = comparedParty.executeQuery();
+						singleParty.next();
             String comparedDescription = singleParty.getString(2);
             ResultSet allParties = getParties.executeQuery();
+
             while (allParties.next()) {
                 String currentDescription = allParties.getString(2);
                 int currentParty = allParties.getInt(1);
@@ -105,7 +109,7 @@ public class Assignment3 extends JDBCSubmission {
     }
 
     public static void main(String[] args) throws Exception {
-   	    //Write code here. 
+   	    //Write code here.
     	// Didn't they say no print statements?
 	    // System.out.println("Hellow World");
 	    //Assignment3 a3 = new Assignment3();
@@ -123,6 +127,3 @@ public class Assignment3 extends JDBCSubmission {
     }
 
 }
-
-
-
