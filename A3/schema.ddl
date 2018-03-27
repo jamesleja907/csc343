@@ -61,7 +61,7 @@ Create Table Reservation(
   to_date Timestamp NOT Null,
   car_id INT References Car(id) NOT Null,
   old_res_id INT default null,
-  status res_status NOT NUll
+  status res_status NOT NUll,
   check ((date_part('day', to_date - from_date)*24 +
           date_part('hour', to_date - from_date) >= 2)
 );
