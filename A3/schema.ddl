@@ -63,7 +63,7 @@ Create Table Reservation(
   old_res_id INT default null,
   status res_status NOT NUll,
   check ((date_part('day', to_date - from_date)*24 +
-          date_part('hour', to_date - from_date) >= 2)
+          date_part('hour', to_date - from_date)) >= 2)
 );
 
 create table Customer_res(
