@@ -1,26 +1,17 @@
 --Schema for rental car database
 
 -- What constraints from the domain could not be enforced?
-<<<<<<< HEAD
--- -- Checking whether the number of drivers is less than or equal to the
---    capacity of the car could not be enforced by simple check constraints.
---    To do so would require multiple tables and would need a trigger to be enforced.
--- -- Adding a constraint to check if reservation dates and times overlap also
---    could not be enforced by simple check constraints and would require a trigger.
--- -- Constraining the changed reservations to one time.
-=======
 -- -- Checking whether the number of drivers for a reservation is less than or equal to the
 --    capacity of the reservation's car could not be enforced by simple check constraints.
---    To do so would require a subquery with multiple tables (Model, Car, Customer_res) 
+--    To do so would require a subquery with multiple tables (Model, Car, Customer_res)
 --    and would therefore need a trigger to be enforced.
->>>>>>> 1dbd6338798b46b3fcf04da7ccee149af6a1b73b
 --
 -- -- A trigger would also be needed to enforce the constraint that a single car
 --    cannot have overlapping reservation times.
 
 -- What constraints that could have been enforced but were not? Why?
 --  -- We could have further enforced the fact that a car must be picked up and dropped
---     off at the same location. This is implicit in our schema, since a car has a 
+--     off at the same location. This is implicit in our schema, since a car has a
 --     foreign key constraint referencing a rental station code. We could have added
 --     a constraint that a car's station_code could not by updated, but this would restrict
 --     the rental company from moving a car to a new location. We could also have enforced
@@ -47,7 +38,7 @@ Create Table Customer(
 -- Model includes a primary key id, name, vehicle type v_type, model number, and
 -- capacity. We assumed that model name and number combination would be unique.
 -- As well, we check to ensure that the capacity is at least 2 which is the
--- smallest capacity a car could have. 
+-- smallest capacity a car could have.
 create Table Model(
   id INT primary key,
   name varchar(50) Not Null,
