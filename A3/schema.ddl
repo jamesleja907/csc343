@@ -4,8 +4,8 @@
 --
 --
 --
---What constraints that could have been enforced but were not? Why?
---
+-- What constraints that could have been enforced but were not? Why?
+-- 
 --
 --
 --
@@ -30,7 +30,8 @@ create Table Model(
   name varchar(50) Not Null Unique,
   v_type varchar(50) Not null,
   model_num INT,
-  capacity INT
+  capacity INT,
+  unique(name, model_num)
 );
 
 create Table Rentalstation(
@@ -43,7 +44,7 @@ create Table Rentalstation(
 
 Create Table Car(
   id INT primary key,
-  license_num varchar(20) unique,
+  license_num varchar(20) Not null unique,
   station_code INT References Rentalstation(code),
   model_id INT References Model(id)
 );
@@ -55,7 +56,8 @@ Create Table Reservation(
   To_date Timestamp NOT Null,
   car_id INT References Car(id) NOT Null,
   old_res_id INT default null,
-  status res_status NOT NUll
+  status res_status NOT NUll,
+  check (To_date > From_date)
 );
 
 create table Customer_res(
