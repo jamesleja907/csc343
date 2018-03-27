@@ -32,4 +32,5 @@ create view result2 as select email, count as num_shared_reservations
   from multiple_rank where rank = 1 or rank = 2 
   order by num_shared_reservations desc, email;
 
+select * from result2;
 --insert into q2 select * from result2;

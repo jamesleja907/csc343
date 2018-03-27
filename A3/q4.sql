@@ -45,4 +45,5 @@ create view result4 as
   from customer_changes
   where num_changes >= 2;
 
+select * from result4;
 --insert into q4 select * from result4;

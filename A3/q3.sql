@@ -35,4 +35,5 @@ create view result3 as
   from model_ranks
   where rank = 1;
 
+select * from result3;
 --insert into q3 select * from result3;
