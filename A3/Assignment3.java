@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Assignment3 extends JDBCSubmission {
     // See JDBCSubmission.java for javadocs
-     
+
     public Assignment3() throws ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
     }
@@ -81,7 +81,7 @@ public class Assignment3 extends JDBCSubmission {
             ResultSet singleParty = comparedParty.executeQuery();
 			// call next() to advance the cursor to the first row of the result
             singleParty.next();
-            String comparedDescription = singleParty.getString(2);
+            String comparedDescription = singleParty.getString(1);
             ResultSet allParties = getParties.executeQuery();
             // iterate over allParties, adding the currentParty to our result iff
             // the description is similar enough to comparedDescription

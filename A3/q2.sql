@@ -12,51 +12,25 @@ create view complete_res as
   from Reservation join Customer_res on reservation.id = customer_res.res_num
   where status != 'Cancelled';
 
+-- get all the reservations where a customer is the only driver
 create view single_res as select * from complete_res c1
   where not exists(select * from complete_res c2
     where c1.res_num = c2.res_num and c1.email != c2.email);
 
+-- get all reservations with multiple drivers
 create view multiple_res as (select * from complete_res) except (select * from single_res);
 
+-- get the number of times a customer has made a reservation with multiple drivers
 create view multiple_count as select email, count(*) from multiple_res group by email;
 
+-- rank the result by count, breaking ties by order of email ascending
 create view multiple_rank as select email, count, row_number() over(order by count desc, email) as rank
   from multiple_count;
 
+-- select the two customers who have made the most reservations with other drivers
 create view result2 as select email, count as num_shared_reservations 
   from multiple_rank where rank = 1 or rank = 2 
   order by num_shared_reservations desc, email;
 
--- create view top as
---   select *
---   from multiple_res
---   where not exists(
---     select *
---     from multiple_res m1
---     where m1.count > count
---   );
-
--- create view non_top as
---   select *
---   from (multiple_res) except (top);
-
--- create view num_two as
---   select *
---   from non_top
---   where not exists(
---     select *
---     from non_top n1
---     where n1.count > count
---   );
-
--- create view top_two as
---   select *
---   from (top) union (num_two)
---   order by count;
-
--- create view result as
---   select case when(select count(*) from multiple_res = 0) then
---    complete_res.email else top_two.email end as email
---    from complete_res, multiple_res;
-
-insert into q2 select * from result2;
+select * from result2;
+--insert into q2 select * from result2;
