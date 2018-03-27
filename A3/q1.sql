@@ -8,7 +8,7 @@ create table q1(
 );
 
 --Get table of customers and reservation details by joining reservation and customer_res
-create view cust_res as select cust_res.email, reservation.id as res_id,
+create view cust_res as select customer_res.email, reservation.id as res_id,
    status, old_res_id
   from customer_res join reservation 
   on customer_res.res_num = reservation.id;
