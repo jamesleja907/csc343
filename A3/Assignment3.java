@@ -3,50 +3,47 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Assignment3 extends JDBCSubmission {
-
+    // See JDBCSubmission.java for javadocs
+     
     public Assignment3() throws ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
     }
 
     @Override
     public boolean connectDB(String url, String username, String password) {
-	    //write your code here.
     	try {
     		connection = DriverManager.getConnection(url, username, password);
     		if (connection != null) {
     			return true;
     		}
-        // Do we need to catch a specific exception?
-        // Return false in catch? Yells at you if no false outside of try
     	} catch (SQLException e) {
     		e.printStackTrace();
-    		//return false;
     	}
     	return false;
     }
 
     @Override
     public boolean disconnectDB() {
-	    //write your code here.
-            try {
-				connection.close();
-				if (connection.isClosed()) {
-					return true;
-				}
-				return false;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
+        try {
+			connection.close();
+            // Check if connection is closed before returning true
+			if (connection.isClosed()) {
+				return true;
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+        return false;
     }
 
     @Override
     public ElectionResult presidentSequence(String countryName) {
         ElectionResult result = null;
+        // ArrayLists to be passed to ElectionResult
+        List<Integer> presidentIds = new ArrayList<Integer>();
+        List<String> partyNames = new ArrayList<String>(); 
         try {
-            List<Integer> presidentIds = new ArrayList<Integer>();
-            List<String> partyNames = new ArrayList<String>();
+            // Get the president_ids and party_name using countryName
             PreparedStatement presidentStat = connection.prepareStatement(
                 "SELECT politician_president.id, party.name " +
                 "from politician_president join party " +
@@ -55,6 +52,7 @@ public class Assignment3 extends JDBCSubmission {
                 "where country.name = " + "\'" + countryName + "\' " +
                 "order by politician_president.start_date desc;");
             ResultSet presidents = presidentStat.executeQuery();
+            // iterate over the ResultSet, adding the president and party to the lists
             while (presidents.next()) {
                 int currentPresident = presidents.getInt(1);
                 String currentParty = presidents.getString(2);
@@ -70,37 +68,30 @@ public class Assignment3 extends JDBCSubmission {
 
     @Override
     public List<Integer> findSimilarParties(Integer partyId, Float threshold) {
-	//Write your code here.
-        // This method currently fails, not sure if its because of the helper though.
         List<Integer> similarParties = new ArrayList<Integer>();
-        int tempId = partyId;
-        // StringBuilder b = new StringBuilder("SELECT id, description from party where id = ");
-        // b.append(partyId);
-        // b.append(";");
-        // String query = b.toString();
-        // Double doubleThreshold = (Double) threshold;
-        // Double doubleThreshold = new FloatingDecimal(threshold.floatValue()).doubleValue();
         try {
+            // get the id and description of all the parties except the one with id=partyId
             PreparedStatement getParties = connection.prepareStatement(
-                "SELECT id, description from party where id != " + Integer.toString(partyId) + ";");
-								//added where the party id is not the passed in partyID
+                "SELECT id, description from party where id != " + 
+                Integer.toString(partyId) + ";");
+            // get the description of the party to be compared for similarity
             PreparedStatement comparedParty = connection.prepareStatement(
-                "SELECT id, description from party where id =  " + Integer.toString(partyId) + ";");
-                //+ Integer.toString(partyId) + " ;");
-
-            //comparedParty.setInt(1, partyId.intValue());
+                "SELECT description from party where id =  " + 
+                Integer.toString(partyId) + ";");
             ResultSet singleParty = comparedParty.executeQuery();
-						singleParty.next();
+			// call next() to advance the cursor to the first row of the result
+            singleParty.next();
             String comparedDescription = singleParty.getString(2);
             ResultSet allParties = getParties.executeQuery();
-
+            // iterate over allParties, adding the currentParty to our result iff
+            // the description is similar enough to comparedDescription
             while (allParties.next()) {
                 String currentDescription = allParties.getString(2);
                 int currentParty = allParties.getInt(1);
+                // see JDBCSubmission.java for similarity method
                 if ((similarity(currentDescription, comparedDescription)) >= threshold) {
                     similarParties.add(currentParty);
                 }
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,22 +99,5 @@ public class Assignment3 extends JDBCSubmission {
         return similarParties;
     }
 
-    public static void main(String[] args) throws Exception {
-   	    //Write code here.
-    	// Didn't they say no print statements?
-	    // System.out.println("Hellow World");
-	    //Assignment3 a3 = new Assignment3();
-	   //  String url = "dbc:postgresql://localhost:5432/csc343h-lejajame";
-	   //  String username = "lejajame";
-    //     Float f = 0.3f;
-	   //  boolean connected = a3.connectDB(url, username, "");
-	   //  if (connected) {
-	   //  	//System.out.println("Connected hooray");
-    //         List<Integer> result = a3.findSimilarParties(401, f);
-    //         System.out.println(result.toString());
-	   //  }
-	   //  boolean disconnected = a3.disconnectDB();
-    // }
-    }
-
+    public static void main(String[] args) throws Exception {}
 }
