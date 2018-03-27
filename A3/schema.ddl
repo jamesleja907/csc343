@@ -5,7 +5,6 @@
 --    capacity of the car could not be enforced by simple check constraints.
 --    To do so would require multiple tables and would need a trigger to be enforced.
 --
-<<<<<<< HEAD
 -- -- As well, a trigger would be needed to enforce the constraint that a car
 --    cannot have an overlapping reservation dates.
 --What constraints that could have been enforced but were not? Why?
@@ -16,16 +15,6 @@
 --     another table which would be a bad design.
 --
 --  --
-=======
---
---
--- What constraints that could have been enforced but were not? Why?
--- 
---
---
---
-
->>>>>>> f16fc0300572f8dc89db9c3f5f58c71ed3d3d7db
 drop schema if exists carschema cascade;
 create schema carschema;
 set search_path to carschema;
@@ -72,14 +61,9 @@ Create Table Reservation(
   to_date Timestamp NOT Null,
   car_id INT References Car(id) NOT Null,
   old_res_id INT default null,
-<<<<<<< HEAD
   status res_status NOT NUll
   check ((date_part('day', to_date - from_date)*24 +
           date_part('hour', to_date - from_date) >= 2)
-=======
-  status res_status NOT NUll,
-  check (To_date > From_date)
->>>>>>> f16fc0300572f8dc89db9c3f5f58c71ed3d3d7db
 );
 
 create table Customer_res(
