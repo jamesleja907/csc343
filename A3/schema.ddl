@@ -23,11 +23,14 @@ drop schema if exists carschema cascade;
 create schema carschema;
 set search_path to carschema;
 
---
+--Used in he check condition for Reservation table status, which must be one of
+-- 'Ongoing', 'Completed', 'Cancelled', or 'Confirmed'. 
 create type Res_status as ENUM(
   'Ongoing', 'Completed', 'Cancelled', 'Confirmed'
 );
 
+--Customer table includes a name, age that muct be greater than or equal to 18,
+--and an email that is the primary key of the table.
 Create Table Customer(
   name varchar(50) not null,
   age INT not null
